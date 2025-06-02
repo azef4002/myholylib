@@ -16,13 +16,13 @@ public class PrestamoEjemplarDAOImpl extends RelacionDAOImplBase<PrestamoEjempla
     private static final Logger LOGGER = Logger.getLogger(PrestamoEjemplarDAOImpl.class.getName());
     
     public PrestamoEjemplarDAOImpl() {
-        super("BIB_PRESTAMO_EJEMPLAR", "ID_PRESTAMO", "ID_EJEMPLAR", "BIB_PRESTAMO", "BIB_EJEMPLAR");
+        super("BIB_PRESTAMO_EJEMPLAR", "PRESTAMO_IDPRESTAMO", "EJEMPLAR_IDEJEMPLAR", "BIB_PRESTAMO", "BIB_EJEMPLAR");
     }
 
     @Override
     protected void configurarListaDeColumnas() {
         super.configurarListaDeColumnas();
-        this.listaColumnas.add(new Columna("FECHA_DEVOLUCION_REAL", false, false));
+        this.listaColumnas.add(new Columna("FECHA_REAL_DEVOLUCION", false, false));
         this.listaColumnas.add(new Columna("ESTADO", false, false));
     }
 
@@ -31,7 +31,7 @@ public class PrestamoEjemplarDAOImpl extends RelacionDAOImplBase<PrestamoEjempla
         int resultado = 0;
         try {
             this.iniciarTransaccion();
-            String sql = String.format("INSERT INTO %s (%s, %s, FECHA_DEVOLUCION_REAL, ESTADO) VALUES (?, ?, ?, ?)",
+            String sql = String.format("INSERT INTO %s (%s, %s, FECHA_REAL_DEVOLUCION, ESTADO) VALUES (?, ?, ?, ?)",
                     nombreTabla, columnaId1, columnaId2);
             this.colocarSQLenStatement(sql);
             this.statement.setInt(1, prestamoEjemplar.getIdPrestamo());
@@ -122,7 +122,7 @@ public class PrestamoEjemplarDAOImpl extends RelacionDAOImplBase<PrestamoEjempla
         int resultado = 0;
         try {
             this.iniciarTransaccion();
-            String sql = String.format("UPDATE %s SET FECHA_DEVOLUCION_REAL = ?, ESTADO = ? WHERE %s = ? AND %s = ?",
+            String sql = String.format("UPDATE %s SET FECHA_REAL_DEVOLUCION = ?, ESTADO = ? WHERE %s = ? AND %s = ?",
                     nombreTabla, columnaId1, columnaId2);
             this.colocarSQLenStatement(sql);
             this.statement.setDate(1, prestamoEjemplar.getFechaRealDevolucion() != null ? 
@@ -186,7 +186,7 @@ public class PrestamoEjemplarDAOImpl extends RelacionDAOImplBase<PrestamoEjempla
         PrestamoEjemplarDTO dto = new PrestamoEjemplarDTO();
         dto.setIdPrestamo(this.resultSet.getInt(columnaId1));
         dto.setIdEjemplar(this.resultSet.getInt(columnaId2));
-        dto.setFechaRealDevolucion(this.resultSet.getDate("FECHA_DEVOLUCION_REAL"));
+        dto.setFechaRealDevolucion(this.resultSet.getDate("FECHA_REAL_DEVOLUCION"));
         dto.setEstado(EstadoPrestamoEjemplar.valueOf(this.resultSet.getString("ESTADO")));
         return dto;
     }
