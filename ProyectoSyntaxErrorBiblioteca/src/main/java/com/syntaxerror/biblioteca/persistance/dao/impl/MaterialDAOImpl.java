@@ -26,6 +26,7 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
         this.listaColumnas.add(new Columna("EDICION", false, false));
         this.listaColumnas.add(new Columna("NIVEL", false, false));
         this.listaColumnas.add(new Columna("ANHIO_PUBLICACION", false, false));
+        this.listaColumnas.add(new Columna("PORTADA", false, false));
         this.listaColumnas.add(new Columna("EDITORIAL_IDEDITORIAL", false, false));
     }
 
@@ -37,7 +38,8 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
         this.statement.setString(2, this.material.getEdicion());
         this.statement.setString(3, this.material.getNivel().name());
         this.statement.setInt(4, this.material.getAnioPublicacion());
-        this.statement.setInt(5, this.material.getEditorial().getIdEditorial());
+        this.statement.setString(5, this.material.getPortada());
+        this.statement.setInt(6, this.material.getEditorial().getIdEditorial());
     }
 
     @Override
@@ -47,8 +49,9 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
         this.statement.setString(2, this.material.getEdicion());
         this.statement.setString(3, this.material.getNivel().name());
         this.statement.setInt(4, this.material.getAnioPublicacion());
-        this.statement.setInt(5, this.material.getEditorial().getIdEditorial());
-        this.statement.setInt(6, this.material.getIdMaterial());
+        this.statement.setString(5, this.material.getPortada());
+        this.statement.setInt(6, this.material.getEditorial().getIdEditorial());
+        this.statement.setInt(7, this.material.getIdMaterial());
         //En modificar el ID va al ultimo
     }
 
@@ -72,6 +75,7 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
         this.material.setEdicion(this.resultSet.getString("EDICION"));
         this.material.setNivel(NivelDeIngles.valueOf(this.resultSet.getString("NIVEL")));
         this.material.setAnioPublicacion(this.resultSet.getInt("ANHIO_PUBLICACION"));
+        this.material.setPortada(this.resultSet.getString("PORTADA"));
 
         // Crear objetos DTO básicos para las relaciones
         EditorialDTO editorial = new EditorialDTO();

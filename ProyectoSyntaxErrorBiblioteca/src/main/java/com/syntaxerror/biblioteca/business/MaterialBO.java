@@ -21,13 +21,14 @@ public class MaterialBO {
         this.editorialDAO = new EditorialDAOImpl();
     }
 
-    public int insertar(String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion, Integer idEditorial) throws BusinessException {
+    public int insertar(String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion, String portada, Integer idEditorial) throws BusinessException {
         BusinessValidator.validarTexto(titulo, "título");
         MaterialDTO material = new MaterialDTO();
         material.setTitulo(titulo);
         material.setEdicion(edicion);
         material.setNivel(nivel);
         material.setAnioPublicacion(anioPublicacion);
+        material.setPortada(portada);
 
         if (idEditorial != null) {
             EditorialDTO editorial = editorialDAO.obtenerPorId(idEditorial);
@@ -40,7 +41,8 @@ public class MaterialBO {
         return this.materialDAO.insertar(material);
     }
 
-    public int modificar(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion, Integer idEditorial) throws BusinessException {
+    public int modificar(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion, String portada,
+            Integer idEditorial) throws BusinessException {
         BusinessValidator.validarId(idMaterial, "material");
         BusinessValidator.validarTexto(titulo, "título");
         MaterialDTO material = new MaterialDTO();
@@ -49,6 +51,7 @@ public class MaterialBO {
         material.setEdicion(edicion);
         material.setNivel(nivel);
         material.setAnioPublicacion(anioPublicacion);
+        material.setPortada(portada);
 
         if (idEditorial != null) {
             EditorialDTO editorial = editorialDAO.obtenerPorId(idEditorial);
