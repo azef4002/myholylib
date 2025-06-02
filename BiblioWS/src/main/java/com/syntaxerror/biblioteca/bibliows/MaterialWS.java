@@ -4,9 +4,9 @@
  */
 package com.syntaxerror.biblioteca.bibliows;
 
-import com.syntaxerror.biblioteca.bibliobusiness.MaterialBO;
-import com.syntaxerror.biblioteca.bibliomodelado.MaterialDTO;
-import com.syntaxerror.biblioteca.bibliomodelado.enums.NivelDeIngles;
+import com.syntaxerror.biblioteca.business.MaterialBO;
+import com.syntaxerror.biblioteca.model.MaterialDTO;
+import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
 import jakarta.xml.ws.WebServiceException;
 import java.util.List;
 import jakarta.jws.WebService;
@@ -37,13 +37,5 @@ public class MaterialWS {
             throw new WebServiceException("Error al listar"+e.getMessage());
         }
     }
-    @WebMethod(operationName = "hello")
-    public ArrayList<MaterialDTO> sumar(@WebParam(name = "a") int a,@WebParam(name = "b") int b){
-        ArrayList<MaterialDTO> numeros = new ArrayList<MaterialDTO>();
-        MaterialBO material = new MaterialBO();
-        MaterialDTO material2 =new MaterialDTO();
-        material2=material.obtenerPorId(1);
-        numeros.add(material2);
-        return numeros;
-    }
+    
 }
