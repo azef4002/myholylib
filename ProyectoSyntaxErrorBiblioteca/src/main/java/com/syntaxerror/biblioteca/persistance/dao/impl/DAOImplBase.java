@@ -99,20 +99,20 @@ public abstract class DAOImplBase {
             // this.conexion.setAutoCommit(false);
             String sql = null;
             switch (tipo_Operacion) {
-                case Tipo_Operacion.INSERTAR ->
+                case INSERTAR ->
                     sql = this.generarSQLParaInsercion();
-                case Tipo_Operacion.MODIFICAR ->
+                case MODIFICAR ->
                     sql = this.generarSQLParaModificacion();
-                case Tipo_Operacion.ELIMINAR ->
+                case ELIMINAR ->
                     sql = this.generarSQLParaEliminacion();
             }
             this.colocarSQLenStatement(sql);
             switch (tipo_Operacion) {
-                case Tipo_Operacion.INSERTAR ->
+                case INSERTAR ->
                     this.incluirValorDeParametrosParaInsercion();
-                case Tipo_Operacion.MODIFICAR ->
+                case MODIFICAR ->
                     this.incluirValorDeParametrosParaModificacion();
-                case Tipo_Operacion.ELIMINAR ->
+                case ELIMINAR ->
                     this.incluirValorDeParametrosParaEliminacion();
             }
             resultado = this.ejecutarModificacionEnBD();

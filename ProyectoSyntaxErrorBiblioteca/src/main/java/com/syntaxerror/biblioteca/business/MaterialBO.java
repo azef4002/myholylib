@@ -9,6 +9,7 @@ import com.syntaxerror.biblioteca.persistance.dao.EditorialDAO;
 import com.syntaxerror.biblioteca.persistance.dao.MaterialDAO;
 import com.syntaxerror.biblioteca.persistance.dao.impl.EditorialDAOImpl;
 import com.syntaxerror.biblioteca.persistance.dao.impl.MaterialDAOImpl;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialBO {
@@ -76,7 +77,7 @@ public class MaterialBO {
         return this.materialDAO.obtenerPorId(idMaterial);
     }
 
-    public List<MaterialDTO> listarTodos() {
+    public ArrayList<MaterialDTO> listarTodos() {
         return this.materialDAO.listarTodos();
     }
 }
