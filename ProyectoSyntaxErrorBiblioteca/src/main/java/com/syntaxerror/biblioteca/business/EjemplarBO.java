@@ -94,6 +94,58 @@ public class EjemplarBO {
         return this.ejemplarDAO.listarTodos();
     }
 
+    public int contarTotalEjemplaresPorMaterial(int idMaterial) throws BusinessException {
+        BusinessValidator.validarId(idMaterial, "material");
+
+        int total = 0;
+        for (EjemplarDTO ej : this.listarTodos()) {
+            if (ej.getMaterial() != null && ej.getMaterial().getIdMaterial() == idMaterial) {
+                total++;
+            }
+        }
+        return total;
+    }
+
+    public int contarEjemplaresDisponiblesPorMaterial(int idMaterial) throws BusinessException {
+        BusinessValidator.validarId(idMaterial, "material");
+
+        int disponibles = 0;
+        for (EjemplarDTO ej : this.listarTodos()) {
+            if (ej.getMaterial() != null
+                    && ej.getMaterial().getIdMaterial() == idMaterial
+                    && Boolean.TRUE.equals(ej.getDisponible())) {
+                disponibles++;
+            }
+        }
+        return disponibles;
+    }
+
+    public int contarEjemplaresPorSede(int idSede) throws BusinessException {
+        BusinessValidator.validarId(idSede, "sede");
+
+        int total = 0;
+        for (EjemplarDTO ej : this.listarTodos()) {
+            if (ej.getSede() != null && ej.getSede().getIdSede() == idSede) {
+                total++;
+            }
+        }
+        return total;
+    }
+
+    public int contarEjemplaresDisponiblesPorSede(int idSede) throws BusinessException {
+        BusinessValidator.validarId(idSede, "sede");
+
+        int disponibles = 0;
+        for (EjemplarDTO ej : this.listarTodos()) {
+            if (ej.getSede() != null
+                    && ej.getSede().getIdSede() == idSede
+                    && Boolean.TRUE.equals(ej.getDisponible())) {
+                disponibles++;
+            }
+        }
+        return disponibles;
+    }
+
     private void validarDatos(Boolean disponible, TipoEjemplar tipo,
             FormatoDigital formato, String ubicacion,
             Integer idSede, Integer idMaterial) throws BusinessException {

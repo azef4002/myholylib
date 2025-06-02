@@ -2,8 +2,11 @@ package com.syntaxerror.biblioteca.business;
 
 import com.syntaxerror.biblioteca.business.util.BusinessException;
 import com.syntaxerror.biblioteca.business.util.BusinessValidator;
+import com.syntaxerror.biblioteca.model.EjemplarDTO;
 import com.syntaxerror.biblioteca.model.PersonaDTO;
 import com.syntaxerror.biblioteca.model.PrestamoDTO;
+import com.syntaxerror.biblioteca.model.PrestamoEjemplarDTO;
+import com.syntaxerror.biblioteca.model.enums.EstadoPrestamoEjemplar;
 import com.syntaxerror.biblioteca.persistance.dao.PersonaDAO;
 import com.syntaxerror.biblioteca.persistance.dao.PrestamoDAO;
 import com.syntaxerror.biblioteca.persistance.dao.impl.PersonaDAOImpl;
@@ -69,6 +72,65 @@ public class PrestamoBO {
 
     public ArrayList<PrestamoDTO> listarTodos() {
         return this.prestamoDAO.listarTodos();
+    }
+
+    public int contarPrestamosActivosPorUsuario(int idUsuario) throws BusinessException {
+        BusinessValidator.validarId(idUsuario, "usuario");
+
+        ArrayList<PrestamoDTO> prestamos = this.listarTodos();
+        ArrayList<PrestamoEjemplarDTO> prestamosEjemplares = new PrestamoEjemplarBO().listarTodos();
+
+        int contador = 0;
+        for (PrestamoDTO prestamo : prestamos) {
+            if (prestamo.getPersona() != null && prestamo.getPersona().getIdPersona() == idUsuario) {
+                for (PrestamoEjemplarDTO pe : prestamosEjemplares) {
+                    if (pe.getIdPrestamo().equals(prestamo.getIdPrestamo())
+                            && (pe.getEstado() == EstadoPrestamoEjemplar.PRESTADO || pe.getEstado() == EstadoPrestamoEjemplar.ATRASADO)) {
+                        contador++;
+                    }
+                }
+            }
+        }
+        return contador;
+    }
+
+    public int contarPrestamosAtrasadosPorUsuario(int idUsuario) throws BusinessException {
+        BusinessValidator.validarId(idUsuario, "usuario");
+
+        ArrayList<PrestamoDTO> prestamos = this.listarTodos();
+        ArrayList<PrestamoEjemplarDTO> prestamosEjemplares = new PrestamoEjemplarBO().listarTodos();
+
+        int contador = 0;
+        for (PrestamoDTO prestamo : prestamos) {
+            if (prestamo.getPersona() != null && prestamo.getPersona().getIdPersona() == idUsuario) {
+                for (PrestamoEjemplarDTO pe : prestamosEjemplares) {
+                    if (pe.getIdPrestamo().equals(prestamo.getIdPrestamo())
+                            && pe.getEstado() == EstadoPrestamoEjemplar.ATRASADO) {
+                        contador++;
+                    }
+                }
+            }
+        }
+        return contador;
+    }
+
+    public int contarPrestamosPorMaterial(int idMaterial) throws BusinessException {
+        BusinessValidator.validarId(idMaterial, "material");
+
+        ArrayList<PrestamoEjemplarDTO> prestamosEjemplares = new PrestamoEjemplarBO().listarTodos();
+        ArrayList<EjemplarDTO> ejemplares = new EjemplarBO().listarTodos();
+
+        int contador = 0;
+        for (PrestamoEjemplarDTO pe : prestamosEjemplares) {
+            for (EjemplarDTO ejem : ejemplares) {
+                if (ejem.getIdEjemplar().equals(pe.getIdEjemplar())
+                        && ejem.getMaterial() != null
+                        && ejem.getMaterial().getIdMaterial() == idMaterial) {
+                    contador++;
+                }
+            }
+        }
+        return contador;
     }
 
     private void validarDatos(Date fechaSolicitud, Date fechaPrestamo, Date fechaDevolucion, Integer idPersona) throws BusinessException {
