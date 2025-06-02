@@ -77,6 +77,16 @@
             <Columns>
                 <asp:BoundField HeaderText="ID" DataField="idMaterial" />
                 <asp:BoundField HeaderText="INVENTARIO" DataField="titulo" />
+                <asp:TemplateField HeaderText="">
+                    <ItemTemplate>
+                        <asp:HyperLink 
+                            ID="hlVerDetalle" 
+                            runat="server" 
+                            Text="Ver detalle"
+                            NavigateUrl='<%# Eval("idMaterial", "librodetalle.aspx?id={0}") %>'
+                            CssClass="btn btn-info btn-sm" />
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
         </asp:Gridview>
     </div>
