@@ -117,6 +117,52 @@
             padding: 10px;
             border: 1px solid #ddd;
         }
+        .modal {
+            display: none; /* Ocultar el modal por defecto */
+            position: fixed; /* Fijo en la pantalla */
+            z-index: 1; /* Asegura que esté por encima de otros elementos */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5); /* Fondo oscuro con transparencia */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Estilo del contenido del modal */
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            margin: auto;
+        }
+        .modal-content h3 {
+            font-size: 16px;  /* Tamaño más pequeño para el título */
+        }
+
+        .modal-content button {
+            font-size: 14px; /* Tamaño más pequeño para los botones */
+        }
+
+        /* Estilo para el botón de cerrar */
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 
             <div class="main-container">
@@ -153,7 +199,7 @@
         
                 <div class="button-container">
                     <button class="action-button">Editar Material</button>
-                    <button class="action-button">Eliminar Material</button>
+                    <asp:Button ID="btnEliminar" runat="server" Text="Eliminar Material" CssClass="action-button" OnClientClick="mostrarModal(); return false;" />
                     <button class="action-button">Ver Ejemplares</button>
                 </div>
             </div>
@@ -170,9 +216,32 @@
                 <p>123</p>
             </div>
         </div>
+        <div id="modalConfirmacion" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModal()">&times;</span>
+                <h3>¿Estás seguro de que deseas eliminar este material?</h3>
+                <button onclick="eliminarMaterial()">Sí, eliminar</button>
+                <button onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
 
     <!-- Script de JavaScript para manejar la visibilidad y mostrar los detalles -->
     <script>
+        function mostrarModal() {
+            document.getElementById('modalConfirmacion').style.display = 'flex';
+        }
+
+        // Cerrar el modal
+        function cerrarModal() {
+            document.getElementById('modalConfirmacion').style.display = 'none';
+        }
+
+        // Función para eliminar el material
+        function eliminarMaterial() {
+            // Aquí puedes agregar la lógica para eliminar el material
+            alert("Material eliminado.");
+            cerrarModal();  // Cerrar el modal después de eliminar
+        }
         function mostrarDetalles() {
             // Ocultar la sección de estadísticas
             document.getElementById("statsContainer").style.display = "none";
