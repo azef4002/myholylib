@@ -51,24 +51,9 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>9.2.0</version>
          </dependency>
-        <dependency>
+         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>BiblioDBManager</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>BiblioModelado</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>BiblioPersistance</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>BiblioBusiness</artifactId>
+            <artifactId>ProyectoSyntaxErrorBiblioteca</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

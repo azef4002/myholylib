@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.syntaxerror.biblioteca.model.CreadorDTO;
 
-public interface CreadorDAO {
+public interface CreadorDAO { //manejar relacion desde otra rama
 
     public Integer insertar(CreadorDTO autor);
 

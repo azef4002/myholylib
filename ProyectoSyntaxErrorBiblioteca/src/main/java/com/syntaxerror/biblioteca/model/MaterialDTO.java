@@ -3,12 +3,12 @@ package com.syntaxerror.biblioteca.model;
 import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
 
 public class MaterialDTO {
-
     private Integer idMaterial;
     private String titulo;
     private String edicion;
     private NivelDeIngles nivel;
     private Integer anioPublicacion;
+    private String portada;
     private EditorialDTO editorial;
 
     // Constructores
@@ -18,19 +18,20 @@ public class MaterialDTO {
         this.edicion = null;
         this.nivel = null;
         this.anioPublicacion = null;
+        this.portada = null;
         this.editorial = null;
 
     }
 
     public MaterialDTO(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion,
-            EditorialDTO editorial) {
+            String portada, EditorialDTO editorial) {
         this.idMaterial = idMaterial;
         this.titulo = titulo;
         this.edicion = edicion;
         this.nivel = nivel;
         this.anioPublicacion = anioPublicacion;
+        this.portada = portada;
         this.editorial = editorial;
-
     }
 
     public MaterialDTO(MaterialDTO material) {
@@ -39,6 +40,7 @@ public class MaterialDTO {
         this.edicion = material.edicion;
         this.nivel = material.nivel;
         this.anioPublicacion = material.anioPublicacion;
+        this.portada = material.portada;
         this.editorial = material.editorial;
 
     }
@@ -90,5 +92,12 @@ public class MaterialDTO {
     public void setEditorial(EditorialDTO editorial) {
         this.editorial = editorial;
     }
+    
+    public String getPortada() {
+        return portada;
+    }
 
+    public void setPortada(String portada) {
+        this.portada = portada;
+    }
 }
