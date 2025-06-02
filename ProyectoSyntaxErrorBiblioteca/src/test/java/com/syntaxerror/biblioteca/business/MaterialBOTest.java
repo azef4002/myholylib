@@ -47,10 +47,10 @@ public class MaterialBOTest {
     public void testInsertarMaterial() throws BusinessException {
         testEliminarTodo();
         // Insertamos un material
-        int id = materialBO.insertar("Java para principiantes", "1ª edición", NivelDeIngles.BASICO, 2022, idEditorial); // 1 es el idEditorial
+        int id = materialBO.insertar("Java para principiantes", "1ª edición", NivelDeIngles.BASICO, 2022, "pruebaPortada1",idEditorial); // 1 es el idEditorial
         assertTrue(id > 0, "El ID de la inserción debe ser mayor que 0");
 
-        id = materialBO.insertar("C# Avanzado", "2 edicion", NivelDeIngles.AVANZADO, 2021, idEditorial);
+        id = materialBO.insertar("C# Avanzado", "2 edicion", NivelDeIngles.AVANZADO, 2021, "pruebaPortada1", idEditorial);
         assertTrue(id > 0, "El ID de la inserción debe ser mayor que 0");
     }
 
@@ -87,11 +87,11 @@ public class MaterialBOTest {
     @Test
     public void testModificarMaterial() throws BusinessException {
         // Insertamos un material inicial
-        int id = materialBO.insertar("Material original", "1ª edición", NivelDeIngles.INTERMEDIO, 2020, idEditorial);
+        int id = materialBO.insertar("Material original", "1ª edición", NivelDeIngles.INTERMEDIO, 2020, "pruebaPortada2", idEditorial);
         assertTrue(id > 0, "La inserción debe devolver un ID válido");
 
         // Modificamos los datos de ese material
-        int resultado = materialBO.modificar(id, "Material modificado", "2ª edición", NivelDeIngles.AVANZADO, 2021, idEditorial);
+        int resultado = materialBO.modificar(id, "Material modificado", "2ª edición", NivelDeIngles.AVANZADO, 2021,"pruebaPortada2", idEditorial);
         assertTrue(resultado > 0, "La modificación debe devolver un valor mayor a 0");
 
         // Verificamos los cambios
@@ -106,7 +106,7 @@ public class MaterialBOTest {
     @Test
     public void testEliminarMaterial() throws BusinessException {
         // Primero insertamos un material
-        int id = materialBO.insertar("Material a eliminar", "1ª edición", NivelDeIngles.BASICO, 2022, idEditorial);
+        int id = materialBO.insertar("Material a eliminar", "1ª edición", NivelDeIngles.BASICO, 2022, "pruebaPortada3",idEditorial);
         assertTrue(id > 0, "La inserción debe devolver un ID válido");
 
         // Ahora eliminamos el material
