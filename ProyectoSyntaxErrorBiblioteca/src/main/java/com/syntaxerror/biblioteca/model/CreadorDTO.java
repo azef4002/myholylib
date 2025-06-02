@@ -1,21 +1,24 @@
 package com.syntaxerror.biblioteca.model;
 
-import com.syntaxerror.biblioteca.model.enums.TipoAutor;
+import com.syntaxerror.biblioteca.model.enums.TipoCreador;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreadorDTO {
 
-    private Integer idAutor;
+    private Integer idCreador;
     private String nombre;
     private String paterno;
     private String materno;
     private String seudonimo;
-    private TipoAutor tipo;
+    private TipoCreador tipo;
     private String nacionalidad;
     private Boolean activo;
+    private List<MaterialDTO> materiales;
 
     // Constructores
     public CreadorDTO() {
-        this.idAutor = null;
+        this.idCreador = null;
         this.nombre = null;
         this.paterno = null;
         this.materno = null;
@@ -23,11 +26,12 @@ public class CreadorDTO {
         this.tipo = null;
         this.nacionalidad = null;
         this.activo = null;
+        this.materiales = new ArrayList<>();
     }
 
-    public CreadorDTO(Integer idAutor, String nombre, String paterno, String materno,
-            String seudonimo, TipoAutor tipo, String nacionalidad, Boolean activo) {
-        this.idAutor = idAutor;
+    public CreadorDTO(Integer idCreador, String nombre, String paterno, String materno,
+            String seudonimo, TipoCreador tipo, String nacionalidad, Boolean activo) {
+        this.idCreador = idCreador;
         this.nombre = nombre;
         this.paterno = paterno;
         this.materno = materno;
@@ -35,26 +39,35 @@ public class CreadorDTO {
         this.tipo = tipo;
         this.nacionalidad = nacionalidad;
         this.activo = activo;
+        this.materiales = new ArrayList<>();
+    }
+    
+    public CreadorDTO(Integer idCreador, String nombre, String paterno, String materno,
+            String seudonimo, TipoCreador tipo, String nacionalidad, Boolean activo, List<MaterialDTO> materiales) {
+        
+        this(idCreador, nombre, paterno, materno, seudonimo, tipo, nacionalidad, activo);
+        this.materiales = new ArrayList<>(materiales);
     }
 
-    public CreadorDTO(CreadorDTO autor) {
-        this.idAutor = autor.idAutor;
-        this.nombre = autor.nombre;
-        this.paterno = autor.paterno;
-        this.materno = autor.materno;
-        this.seudonimo = autor.seudonimo;
-        this.tipo = autor.tipo;
-        this.nacionalidad = autor.nacionalidad;
-        this.activo = autor.activo;
+    public CreadorDTO(CreadorDTO creador) {
+        this.idCreador = creador.getIdCreador();
+        this.nombre = creador.getNombre();
+        this.paterno = creador.getPaterno();
+        this.materno = creador.getMaterno();
+        this.seudonimo = creador.getSeudonimo();
+        this.tipo = creador.getTipo();
+        this.nacionalidad = creador.getNacionalidad();
+        this.activo = creador.getActivo();
+        this.materiales = creador.getMateriales(); //metodo ya protege la lista con una copia
     }
 
     // Getters y Setters
-    public Integer getIdAutor() {
-        return idAutor;
+    public Integer getIdCreador() {
+        return idCreador;
     }
 
-    public void setIdAutor(Integer idAutor) {
-        this.idAutor = idAutor;
+    public void setIdCreador(Integer idCreador) {
+        this.idCreador = idCreador;
     }
 
     public String getNombre() {
@@ -105,11 +118,27 @@ public class CreadorDTO {
         this.seudonimo = seudonimo;
     }
 
-    public TipoAutor getTipo() {
+    public TipoCreador getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoAutor tipo) {
+    public void setTipo(TipoCreador tipo) {
         this.tipo = tipo;
+    }
+    
+    public ArrayList<MaterialDTO> getMateriales() {
+        return new ArrayList<>(materiales);
+    }
+    
+    public void setMateriales(List<MaterialDTO> materiales) {
+        this.materiales = new ArrayList<>(materiales);
+    }
+    
+    public void addMaterial(MaterialDTO material) {
+        this.materiales.add(material);
+    }
+
+    public void removeMaterial(MaterialDTO material) {
+        this.materiales.remove(material);
     }
 }

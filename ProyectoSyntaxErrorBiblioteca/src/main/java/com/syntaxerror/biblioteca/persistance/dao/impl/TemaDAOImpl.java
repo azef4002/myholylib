@@ -1,21 +1,26 @@
 package com.syntaxerror.biblioteca.persistance.dao.impl;
 
-import com.syntaxerror.biblioteca.model.TemaDTO;
-import com.syntaxerror.biblioteca.model.enums.Categoria;
-import com.syntaxerror.biblioteca.persistance.dao.TemaDAO;
-import com.syntaxerror.biblioteca.persistance.dao.impl.util.Columna;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TemaDAOImpl extends DAOImplBase implements TemaDAO {
+import com.syntaxerror.biblioteca.model.CreadorDTO;
+import com.syntaxerror.biblioteca.model.MaterialDTO;
+import com.syntaxerror.biblioteca.model.TemaDTO;
+import com.syntaxerror.biblioteca.model.enums.Categoria;
+import com.syntaxerror.biblioteca.persistance.dao.TemaDAO;
+import com.syntaxerror.biblioteca.persistance.dao.impl.util.Columna;
+
+public class TemaDAOImpl extends DAOImplRelacion implements TemaDAO {
 
     private TemaDTO tema;
+    private MaterialDTO material;
 
     public TemaDAOImpl() {
-        super("BIB_TEMA");
+        super("BIB_TEMA", "BIB_MATERIAL_TEMA", "TEMA_IDTEMA", "MATERIAL_IDMATERIAL");
         this.retornarLlavePrimaria = true;
         this.tema = null;
+        this.material = null;
     }
 
     @Override
@@ -28,40 +33,35 @@ public class TemaDAOImpl extends DAOImplBase implements TemaDAO {
 
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
-        //si es autoincremental, se salta el (1,ID)
         this.statement.setString(1, this.tema.getDescripcion());
         this.statement.setString(2, this.tema.getCategoria().name());
         if (this.tema.getTemaPadre() != null) {
             this.statement.setInt(3, this.tema.getTemaPadre().getIdTema());
         } else {
-            this.statement.setNull(3, java.sql.Types.INTEGER);  // Establece el valor null para el ID del tema padre
+            this.statement.setNull(3, java.sql.Types.INTEGER);
         }
     }
 
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
-
         this.statement.setString(1, this.tema.getDescripcion());
         this.statement.setString(2, this.tema.getCategoria().name());
         if (this.tema.getTemaPadre() != null) {
             this.statement.setInt(3, this.tema.getTemaPadre().getIdTema());
         } else {
-            this.statement.setNull(3, java.sql.Types.INTEGER);  // Si el temaPadre es null, usamos setNull
+            this.statement.setNull(3, java.sql.Types.INTEGER);
         }
         this.statement.setInt(4, this.tema.getIdTema());
-        //En modificar el ID va al ultimo
     }
 
     @Override
     protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
         this.statement.setInt(1, this.tema.getIdTema());
-        //Para eliminar solo va el id
     }
 
     @Override
     protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
         this.statement.setInt(1, this.tema.getIdTema());
-        //Para obtener por Id igual solo el id
     }
 
     @Override
@@ -70,17 +70,15 @@ public class TemaDAOImpl extends DAOImplBase implements TemaDAO {
         this.tema.setIdTema(this.resultSet.getInt("ID_TEMA"));
         this.tema.setDescripcion(this.resultSet.getString("DESCRIPCION"));
         this.tema.setCategoria(Categoria.valueOf(this.resultSet.getString("CATEGORIA")));
-        // Crear objetos DTO básicos para las relaciones
-        // Verificamos si el temaPadre existe en el resultado
+        
         int idPadre = resultSet.getInt("ID_TEMA_PADRE");
-        if (!resultSet.wasNull()) {  // Si no fue null, creamos el temaPadre
+        if (!resultSet.wasNull()) {
             TemaDTO padre = new TemaDTO();
             padre.setIdTema(idPadre);
             this.tema.setTemaPadre(padre);
         } else {
-            this.tema.setTemaPadre(null);  // Si es null, aseguramos que no se setee un temaPadre
+            this.tema.setTemaPadre(null);
         }
-
     }
 
     @Override
@@ -105,10 +103,6 @@ public class TemaDAOImpl extends DAOImplBase implements TemaDAO {
         this.tema = new TemaDTO();
         this.tema.setIdTema(idTema);
         super.obtenerPorId();
-        // Verificar si el tema tiene un temaPadre, en caso de que sea null
-        if (this.tema.getTemaPadre() == null) {
-            System.out.println("Este tema no tiene tema padre.");
-        }
         return this.tema;
     }
 
@@ -127,5 +121,63 @@ public class TemaDAOImpl extends DAOImplBase implements TemaDAO {
     public Integer eliminar(TemaDTO tema) {
         this.tema = tema;
         return super.eliminar();
+    }
+
+    @Override
+    public Integer asociarMaterial(MaterialDTO material) {
+        this.material = material;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "TEMA_IDTEMA";
+        this.nombreColumnaSegundaEntidad = "MATERIAL_IDMATERIAL";
+        return this.asociar(this.tema.getIdTema(), this.material.getIdMaterial());
+    }
+
+    @Override
+    public Integer desasociarMaterial(MaterialDTO material) {
+        this.material = material;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "TEMA_IDTEMA";
+        this.nombreColumnaSegundaEntidad = "MATERIAL_IDMATERIAL";
+        return this.desasociar(this.tema.getIdTema(), this.material.getIdMaterial());
+    }
+
+    @Override
+    public boolean existeRelacionConMaterial(MaterialDTO material) {
+        this.material = material;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "TEMA_IDTEMA";
+        this.nombreColumnaSegundaEntidad = "MATERIAL_IDMATERIAL";
+        return this.existeRelacion(this.tema.getIdTema(), this.material.getIdMaterial());
+    }
+
+    @Override
+    public ArrayList<TemaDTO> listarPorMaterial(MaterialDTO material) {
+        this.material = material;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "TEMA_IDTEMA";
+        this.nombreColumnaSegundaEntidad = "MATERIAL_IDMATERIAL";
+        return (ArrayList<TemaDTO>) this.listarRelacionados(this.material.getIdMaterial(), "MATERIAL_IDMATERIAL");
+    }
+
+    @Override
+    protected void instanciarObjetoRelacionadoDelResultSet() throws SQLException {
+        this.tema = new TemaDTO();
+        this.tema.setIdTema(this.resultSet.getInt("ID_TEMA"));
+        this.tema.setDescripcion(this.resultSet.getString("DESCRIPCION"));
+        this.tema.setCategoria(Categoria.valueOf(this.resultSet.getString("CATEGORIA")));
+        
+        int idPadre = resultSet.getInt("ID_TEMA_PADRE");
+        if (!resultSet.wasNull()) {
+            TemaDTO padre = new TemaDTO();
+            padre.setIdTema(idPadre);
+            this.tema.setTemaPadre(padre);
+        } else {
+            this.tema.setTemaPadre(null);
+        }
+    }
+
+    @Override
+    protected Object obtenerObjetoRelacionado() {
+        return this.tema;
     }
 }

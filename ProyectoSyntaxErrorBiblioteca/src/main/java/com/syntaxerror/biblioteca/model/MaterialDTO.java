@@ -1,6 +1,8 @@
 package com.syntaxerror.biblioteca.model;
 
 import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MaterialDTO {
 
@@ -10,6 +12,8 @@ public class MaterialDTO {
     private NivelDeIngles nivel;
     private Integer anioPublicacion;
     private EditorialDTO editorial;
+    private List<CreadorDTO> creadores;
+    private List<TemaDTO> temas;
 
     // Constructores
     public MaterialDTO() {
@@ -19,7 +23,8 @@ public class MaterialDTO {
         this.nivel = null;
         this.anioPublicacion = null;
         this.editorial = null;
-
+        this.creadores = new ArrayList<CreadorDTO>();
+        this.temas = new ArrayList<TemaDTO>();
     }
 
     public MaterialDTO(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion,
@@ -30,17 +35,26 @@ public class MaterialDTO {
         this.nivel = nivel;
         this.anioPublicacion = anioPublicacion;
         this.editorial = editorial;
-
+        this.creadores = new ArrayList<CreadorDTO>();
+        this.temas = new ArrayList<TemaDTO>();
+    }
+    
+    public MaterialDTO(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion,
+            EditorialDTO editorial, List<CreadorDTO> creadores, List<TemaDTO> temas){
+        this(idMaterial, titulo, edicion, nivel, anioPublicacion, editorial);
+        this.creadores = new ArrayList<>(creadores);
+        this.temas = new ArrayList<>(temas);
     }
 
     public MaterialDTO(MaterialDTO material) {
-        this.idMaterial = material.idMaterial;
-        this.titulo = material.titulo;
-        this.edicion = material.edicion;
-        this.nivel = material.nivel;
-        this.anioPublicacion = material.anioPublicacion;
-        this.editorial = material.editorial;
-
+        this.idMaterial = material.getIdMaterial();
+        this.titulo = material.getTitulo();
+        this.edicion = material.getEdicion();
+        this.nivel = material.getNivel();
+        this.anioPublicacion = material.getAnioPublicacion();
+        this.editorial = material.getEditorial();
+        this.creadores = material.getCreadores(); //metodo ya protege la lista con una copia
+        this.temas = material.getTemas();
     }
 
     public Integer getIdMaterial() {
@@ -91,4 +105,35 @@ public class MaterialDTO {
         this.editorial = editorial;
     }
 
+    public ArrayList<CreadorDTO> getCreadores() {
+        return new ArrayList<>(this.creadores);
+    }
+    
+    public void setCreadores(List<CreadorDTO> creadores) {
+        this.creadores = new ArrayList<>(creadores);
+    }
+    
+    public void addCreador(CreadorDTO creador) {
+        this.creadores.add(creador);
+    }
+
+    public void removeCreador(CreadorDTO creador) {
+        this.creadores.remove(creador);
+    }
+    
+    public ArrayList<TemaDTO> getTemas() {
+        return new ArrayList<>(this.temas);
+    }
+    
+    public void setTemas(List<TemaDTO> temas) {
+        this.temas = new ArrayList<>(temas);
+    }
+    
+    public void addTema(TemaDTO tema) {
+        this.temas.add(tema);
+    }
+
+    public void removeTema(TemaDTO tema) {
+        this.temas.remove(tema);
+    }
 }

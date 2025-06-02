@@ -1,22 +1,29 @@
 package com.syntaxerror.biblioteca.persistance.dao.impl;
 
-import com.syntaxerror.biblioteca.model.EditorialDTO;
-import com.syntaxerror.biblioteca.model.MaterialDTO;
-import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
-import com.syntaxerror.biblioteca.persistance.dao.MaterialDAO;
-import com.syntaxerror.biblioteca.persistance.dao.impl.util.Columna;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
+import com.syntaxerror.biblioteca.model.CreadorDTO;
+import com.syntaxerror.biblioteca.model.EditorialDTO;
+import com.syntaxerror.biblioteca.model.MaterialDTO;
+import com.syntaxerror.biblioteca.model.TemaDTO;
+import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
+import com.syntaxerror.biblioteca.persistance.dao.MaterialDAO;
+import com.syntaxerror.biblioteca.persistance.dao.impl.util.Columna;
+
+public class MaterialDAOImpl extends DAOImplRelacion implements MaterialDAO {
 
     private MaterialDTO material;
+    private CreadorDTO creador;
+    private TemaDTO tema;
 
     public MaterialDAOImpl() {
-        super("BIB_MATERIAL");
+        super("BIB_MATERIAL", "BIB_MATERIAL_CREADOR", "MATERIAL_IDMATERIAL", "CREADOR_IDCREADOR");
         this.retornarLlavePrimaria = true;
         this.material = null;
+        this.creador = null;
+        this.tema = null;
     }
 
     @Override
@@ -31,8 +38,6 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
 
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
-
-        //si es autoincremental, se salta el (1,ID)
         this.statement.setString(1, this.material.getTitulo());
         this.statement.setString(2, this.material.getEdicion());
         this.statement.setString(3, this.material.getNivel().name());
@@ -42,26 +47,22 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
 
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
-
         this.statement.setString(1, this.material.getTitulo());
         this.statement.setString(2, this.material.getEdicion());
         this.statement.setString(3, this.material.getNivel().name());
         this.statement.setInt(4, this.material.getAnioPublicacion());
         this.statement.setInt(5, this.material.getEditorial().getIdEditorial());
         this.statement.setInt(6, this.material.getIdMaterial());
-        //En modificar el ID va al ultimo
     }
 
     @Override
     protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
         this.statement.setInt(1, this.material.getIdMaterial());
-        //Para eliminar solo va el id
     }
 
     @Override
     protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
         this.statement.setInt(1, this.material.getIdMaterial());
-        //Para obtener por Id igual solo el id
     }
 
     @Override
@@ -73,11 +74,9 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
         this.material.setNivel(NivelDeIngles.valueOf(this.resultSet.getString("NIVEL")));
         this.material.setAnioPublicacion(this.resultSet.getInt("ANHIO_PUBLICACION"));
 
-        // Crear objetos DTO básicos para las relaciones
         EditorialDTO editorial = new EditorialDTO();
         editorial.setIdEditorial(this.resultSet.getInt("EDITORIAL_IDEDITORIAL"));
         this.material.setEditorial(editorial);
-
     }
 
     @Override
@@ -120,5 +119,84 @@ public class MaterialDAOImpl extends DAOImplBase implements MaterialDAO {
     public Integer eliminar(MaterialDTO material) {
         this.material = material;
         return super.eliminar();
+    }
+
+    @Override
+    public Integer asociarCreador(CreadorDTO creador) {
+        this.creador = creador;
+        return this.asociar(this.material.getIdMaterial(), this.creador.getIdCreador());
+    }
+
+    @Override
+    public Integer desasociarCreador(CreadorDTO creador) {
+        this.creador = creador;
+        return this.desasociar(this.material.getIdMaterial(), this.creador.getIdCreador());
+    }
+
+    @Override
+    public boolean existeRelacionConCreador(CreadorDTO creador) {
+        this.creador = creador;
+        return this.existeRelacion(this.material.getIdMaterial(), this.creador.getIdCreador());
+    }
+
+    @Override
+    public ArrayList<MaterialDTO> listarPorCreador(CreadorDTO creador) {
+        this.creador = creador;
+        return (ArrayList<MaterialDTO>) this.listarRelacionados(this.creador.getIdCreador(), "CREADOR_IDCREADOR");
+    }
+
+    @Override
+    public Integer asociarTema(TemaDTO tema) {
+        this.tema = tema;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "MATERIAL_IDMATERIAL";
+        this.nombreColumnaSegundaEntidad = "TEMA_IDTEMA";
+        return this.asociar(this.material.getIdMaterial(), this.tema.getIdTema());
+    }
+
+    @Override
+    public Integer desasociarTema(TemaDTO tema) {
+        this.tema = tema;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "MATERIAL_IDMATERIAL";
+        this.nombreColumnaSegundaEntidad = "TEMA_IDTEMA";
+        return this.desasociar(this.material.getIdMaterial(), this.tema.getIdTema());
+    }
+
+    @Override
+    public boolean existeRelacionConTema(TemaDTO tema) {
+        this.tema = tema;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "MATERIAL_IDMATERIAL";
+        this.nombreColumnaSegundaEntidad = "TEMA_IDTEMA";
+        return this.existeRelacion(this.material.getIdMaterial(), this.tema.getIdTema());
+    }
+
+    @Override
+    public ArrayList<MaterialDTO> listarPorTema(TemaDTO tema) {
+        this.tema = tema;
+        this.nombreTablaIntermedia = "BIB_MATERIAL_TEMA";
+        this.nombreColumnaPrimeraEntidad = "MATERIAL_IDMATERIAL";
+        this.nombreColumnaSegundaEntidad = "TEMA_IDTEMA";
+        return (ArrayList<MaterialDTO>) this.listarRelacionados(this.tema.getIdTema(), "TEMA_IDTEMA");
+    }
+
+    @Override
+    protected void instanciarObjetoRelacionadoDelResultSet() throws SQLException {
+        this.material = new MaterialDTO();
+        this.material.setIdMaterial(this.resultSet.getInt("ID_MATERIAL"));
+        this.material.setTitulo(this.resultSet.getString("TITULO"));
+        this.material.setEdicion(this.resultSet.getString("EDICION"));
+        this.material.setNivel(NivelDeIngles.valueOf(this.resultSet.getString("NIVEL")));
+        this.material.setAnioPublicacion(this.resultSet.getInt("ANHIO_PUBLICACION"));
+
+        EditorialDTO editorial = new EditorialDTO();
+        editorial.setIdEditorial(this.resultSet.getInt("EDITORIAL_IDEDITORIAL"));
+        this.material.setEditorial(editorial);
+    }
+
+    @Override
+    protected Object obtenerObjetoRelacionado() {
+        return this.material;
     }
 }
