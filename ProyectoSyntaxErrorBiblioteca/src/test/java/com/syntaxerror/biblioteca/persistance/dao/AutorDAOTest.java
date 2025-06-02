@@ -4,135 +4,158 @@
  */
 package com.syntaxerror.biblioteca.persistance.dao;
 
-import com.syntaxerror.biblioteca.model.AutorDTO;
+import com.syntaxerror.biblioteca.model.CreadorDTO;
+import com.syntaxerror.biblioteca.model.enums.TipoAutor;
+import com.syntaxerror.biblioteca.persistance.dao.impl.CreadorDAOImpl;
 import java.util.ArrayList;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Order;
 
 /**
- *
- * @author josue
+ * Test class for CreadorDAO implementation
  */
 public class AutorDAOTest {
-    
+
+    private final CreadorDAO creadorDAO;
+
     public AutorDAOTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
+        this.creadorDAO = new CreadorDAOImpl();
     }
 
-    /**
-     * Test of insertar method, of class AutorDAO.
-     */
     @Test
+    @Order(1)
     public void testInsertar() {
+        eliminarTodo();
         System.out.println("insertar");
-        AutorDTO autor = null;
-        AutorDAO instance = new AutorDAOImpl();
-        Integer expResult = null;
-        Integer result = instance.insertar(autor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Integer> listaIdAutor = new ArrayList<>();
+        insertarAutores(listaIdAutor);
+        eliminarTodo();
     }
 
-    /**
-     * Test of obtenerPorId method, of class AutorDAO.
-     */
+    private void insertarAutores(ArrayList<Integer> listaIdAutor) {
+        CreadorDTO autor = new CreadorDTO();
+        autor.setNombre("J.K.");
+        autor.setPaterno("Rowling");
+        autor.setMaterno("");
+        autor.setSeudonimo("J.K. Rowling");
+        autor.setTipo(TipoAutor.AUTOR);
+        autor.setNacionalidad("Británica");
+        autor.setActivo(true);
+
+        Integer resultado = this.creadorDAO.insertar(autor);
+        assertTrue(resultado != 0);
+        listaIdAutor.add(resultado);
+        
+        autor = new CreadorDTO(); // Create new instance to avoid reusing same object
+        autor.setNombre("George");
+        autor.setPaterno("Orwell");
+        autor.setMaterno("");
+        autor.setSeudonimo("George Orwell");
+        autor.setTipo(TipoAutor.AUTOR);
+        autor.setNacionalidad("Británico");
+        autor.setActivo(false);
+
+        resultado = this.creadorDAO.insertar(autor);
+        assertTrue(resultado != 0);
+        listaIdAutor.add(resultado);
+    }
+
     @Test
+    @Order(2)
     public void testObtenerPorId() {
         System.out.println("obtenerPorId");
-        Integer autorId = null;
-        AutorDAO instance = new AutorDAOImpl();
-        AutorDTO expResult = null;
-        AutorDTO result = instance.obtenerPorId(autorId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Integer> listaIdAutor = new ArrayList<>();
+        insertarAutores(listaIdAutor);
+        
+        CreadorDTO autor = this.creadorDAO.obtenerPorId(listaIdAutor.get(0));
+        assertNotNull(autor);
+        assertEquals(listaIdAutor.get(0), autor.getIdAutor());
+        assertEquals("J.K.", autor.getNombre());
+        assertEquals("Rowling", autor.getPaterno());
+        assertEquals("J.K. Rowling", autor.getSeudonimo());
+        assertEquals("Británica", autor.getNacionalidad());
+        assertTrue(autor.getActivo());
+
+        autor = this.creadorDAO.obtenerPorId(listaIdAutor.get(1));
+        assertNotNull(autor);
+        assertEquals(listaIdAutor.get(1), autor.getIdAutor());
+        assertEquals("George", autor.getNombre());
+        assertEquals("Orwell", autor.getPaterno());
+        assertEquals("George Orwell", autor.getSeudonimo());
+        assertEquals("Británico", autor.getNacionalidad());
+        assertFalse(autor.getActivo());
+
+        eliminarTodo();
     }
 
-    /**
-     * Test of listarTodos method, of class AutorDAO.
-     */
     @Test
+    @Order(3)
     public void testListarTodos() {
         System.out.println("listarTodos");
-        AutorDAO instance = new AutorDAOImpl();
-        ArrayList<AutorDTO> expResult = null;
-        ArrayList<AutorDTO> result = instance.listarTodos();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Integer> listaIdAutor = new ArrayList<>();
+        insertarAutores(listaIdAutor);
+
+        ArrayList<CreadorDTO> listaAutores = this.creadorDAO.listarTodos();
+        assertEquals(listaIdAutor.size(), listaAutores.size());
+        for (Integer i = 0; i < listaIdAutor.size(); i++) {
+            assertEquals(listaIdAutor.get(i), listaAutores.get(i).getIdAutor());
+        }
+        eliminarTodo();
     }
 
-    /**
-     * Test of modificar method, of class AutorDAO.
-     */
     @Test
+    @Order(4)
     public void testModificar() {
         System.out.println("modificar");
-        AutorDTO autor = null;
-        AutorDAO instance = new AutorDAOImpl();
-        Integer expResult = null;
-        Integer result = instance.modificar(autor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Integer> listaIdAutor = new ArrayList<>();
+        insertarAutores(listaIdAutor);
+
+        ArrayList<CreadorDTO> listaAutores = this.creadorDAO.listarTodos();
+        assertEquals(listaIdAutor.size(), listaAutores.size());
+        
+        for (Integer i = 0; i < listaIdAutor.size(); i++) {
+            CreadorDTO autor = listaAutores.get(i);
+            autor.setNombre("NuevoNombre" + i);
+            autor.setPaterno("NuevoPaterno" + i);
+            autor.setMaterno("NuevoMaterno" + i);
+            autor.setSeudonimo("NuevoSeudonimo" + i);
+            autor.setNacionalidad("NuevaNacionalidad" + i);
+            autor.setActivo(!autor.getActivo());
+            
+            Integer resultado = this.creadorDAO.modificar(autor);
+            assertNotEquals(0, resultado);
+        }
+
+        ArrayList<CreadorDTO> listaAutoresModificados = this.creadorDAO.listarTodos();
+        assertEquals(listaAutores.size(), listaAutoresModificados.size());
+        for (Integer i = 0; i < listaAutores.size(); i++) {
+            assertEquals(listaAutores.get(i).getNombre(), listaAutoresModificados.get(i).getNombre());
+            assertEquals(listaAutores.get(i).getPaterno(), listaAutoresModificados.get(i).getPaterno());
+            assertEquals(listaAutores.get(i).getMaterno(), listaAutoresModificados.get(i).getMaterno());
+            assertEquals(listaAutores.get(i).getSeudonimo(), listaAutoresModificados.get(i).getSeudonimo());
+            assertEquals(listaAutores.get(i).getNacionalidad(), listaAutoresModificados.get(i).getNacionalidad());
+            assertEquals(listaAutores.get(i).getActivo(), listaAutoresModificados.get(i).getActivo());
+        }
+        eliminarTodo();
     }
 
-    /**
-     * Test of eliminar method, of class AutorDAO.
-     */
     @Test
+    @Order(5)
     public void testEliminar() {
         System.out.println("eliminar");
-        AutorDTO autor = null;
-        AutorDAO instance = new AutorDAOImpl();
-        Integer expResult = null;
-        Integer result = instance.eliminar(autor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Integer> listaIdAutor = new ArrayList<>();
+        insertarAutores(listaIdAutor);
+        eliminarTodo();
     }
 
-    public class AutorDAOImpl implements AutorDAO {
-
-        public Integer insertar(AutorDTO autor) {
-            return null;
-        }
-
-        public AutorDTO obtenerPorId(Integer autorId) {
-            return null;
-        }
-
-        public ArrayList<AutorDTO> listarTodos() {
-            return null;
-        }
-
-        public Integer modificar(AutorDTO autor) {
-            return null;
-        }
-
-        public Integer eliminar(AutorDTO autor) {
-            return null;
+    private void eliminarTodo() {
+        ArrayList<CreadorDTO> listaAutores = this.creadorDAO.listarTodos();
+        for (CreadorDTO autor : listaAutores) {
+            Integer resultado = this.creadorDAO.eliminar(autor);
+            assertNotEquals(0, resultado);
+            CreadorDTO autorEliminado = this.creadorDAO.obtenerPorId(autor.getIdAutor());
+            assertNull(autorEliminado);
         }
     }
-    
 }
