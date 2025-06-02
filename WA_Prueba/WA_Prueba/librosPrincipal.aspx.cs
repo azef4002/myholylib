@@ -27,7 +27,25 @@ namespace WA_Prueba
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (!IsPostBack)
+            {
+                // Simula una conexión al servicio (aunque no lo usamos aquí)
+                materialwsClient = new MaterialWSClient();
+
+                // Lista de ejemplo
+                List<materialDTO> materiales = new List<materialDTO>
+                {
+                    new materialDTO { idMaterial = 1, titulo = "Cien años de soledad" },
+                    new materialDTO { idMaterial = 2, titulo = "El Principito" },
+                    new materialDTO { idMaterial = 3, titulo = "Don Quijote de la Mancha" },
+                    new materialDTO { idMaterial = 4, titulo = "Crónica de una muerte anunciada" },
+                    new materialDTO { idMaterial = 5, titulo = "La Odisea" }
+                };
+
+                // Enlaza al GridView
+                dgvLibros.DataSource = materiales;
+                dgvLibros.DataBind();
+            }
         }
     }
 }
