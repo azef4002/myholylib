@@ -9,6 +9,7 @@
             justify-content: space-between; /* Alinea los contenedores a los extremos de la pantalla */
             margin-top: 20px;
             width: 100%;
+            height: 100vh;
         }
 
         .left-container {
@@ -16,6 +17,8 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start; /* Mantiene la tabla alineada a la izquierda */
+            overflow-y: auto;
+            height: 100vh;
         }
 
         h2 {
