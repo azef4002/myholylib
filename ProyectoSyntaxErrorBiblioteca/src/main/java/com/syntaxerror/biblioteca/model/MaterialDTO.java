@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialDTO {
-
     private Integer idMaterial;
     private String titulo;
     private String edicion;
     private NivelDeIngles nivel;
     private Integer anioPublicacion;
+    private String portada;
     private EditorialDTO editorial;
     private List<CreadorDTO> creadores;
     private List<TemaDTO> temas;
@@ -22,26 +22,28 @@ public class MaterialDTO {
         this.edicion = null;
         this.nivel = null;
         this.anioPublicacion = null;
+        this.portada = null;
         this.editorial = null;
         this.creadores = new ArrayList<CreadorDTO>();
         this.temas = new ArrayList<TemaDTO>();
     }
 
-    public MaterialDTO(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion,
-            EditorialDTO editorial) {
+    public MaterialDTO(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion, String portada,
+    EditorialDTO editorial) {
         this.idMaterial = idMaterial;
         this.titulo = titulo;
         this.edicion = edicion;
         this.nivel = nivel;
         this.anioPublicacion = anioPublicacion;
+        this.portada = portada;
         this.editorial = editorial;
         this.creadores = new ArrayList<CreadorDTO>();
         this.temas = new ArrayList<TemaDTO>();
     }
     
     public MaterialDTO(Integer idMaterial, String titulo, String edicion, NivelDeIngles nivel, Integer anioPublicacion,
-            EditorialDTO editorial, List<CreadorDTO> creadores, List<TemaDTO> temas){
-        this(idMaterial, titulo, edicion, nivel, anioPublicacion, editorial);
+            String portada, EditorialDTO editorial, List<CreadorDTO> creadores, List<TemaDTO> temas){
+        this(idMaterial, titulo, edicion, nivel, anioPublicacion, portada, editorial);
         this.creadores = new ArrayList<>(creadores);
         this.temas = new ArrayList<>(temas);
     }
@@ -52,6 +54,7 @@ public class MaterialDTO {
         this.edicion = material.getEdicion();
         this.nivel = material.getNivel();
         this.anioPublicacion = material.getAnioPublicacion();
+        this.portada = material.getPortada();
         this.editorial = material.getEditorial();
         this.creadores = material.getCreadores(); //metodo ya protege la lista con una copia
         this.temas = material.getTemas();
@@ -95,6 +98,14 @@ public class MaterialDTO {
 
     public void setAnioPublicacion(Integer anioPublicacion) {
         this.anioPublicacion = anioPublicacion;
+    }
+
+    public String getPortada() {
+        return portada;
+    }
+
+    public void setPortada(String portada) {
+        this.portada = portada;
     }
 
     public EditorialDTO getEditorial() {
