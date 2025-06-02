@@ -1,6 +1,8 @@
 package com.syntaxerror.biblioteca.model;
 
 import com.syntaxerror.biblioteca.model.enums.Categoria;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TemaDTO {
 
@@ -9,6 +11,8 @@ public class TemaDTO {
     private Categoria categoria;
 
     private TemaDTO temaPadre;
+    
+    private List<MaterialDTO> materiales;
 
     // Constructores
     public TemaDTO() {
@@ -16,6 +20,7 @@ public class TemaDTO {
         this.descripcion = null;
         this.categoria = null;
         this.temaPadre = null;
+        this.materiales = new ArrayList<>();
     }
 
     public TemaDTO(Integer idTema, String descripcion, Categoria categoria, TemaDTO temaP) {
@@ -23,13 +28,20 @@ public class TemaDTO {
         this.descripcion = descripcion;
         this.categoria = categoria;
         this.temaPadre = temaP;
+        this.materiales = new ArrayList<>();
+    }
+    
+    public TemaDTO(Integer idTema, String descripcion, Categoria categoria, TemaDTO temaP, List<MaterialDTO> materiales) {
+        this(idTema, descripcion, categoria, temaP);
+        this.materiales = new ArrayList<>(materiales);
     }
 
     public TemaDTO(TemaDTO tema) {
-        this.idTema = tema.idTema;
-        this.descripcion = tema.descripcion;
-        this.categoria = tema.categoria;
-        this.temaPadre = tema.temaPadre;
+        this.idTema = tema.getIdTema();
+        this.descripcion = tema.getDescripcion();
+        this.categoria = tema.getCategoria();
+        this.temaPadre = tema.getTemaPadre();
+        this.materiales = tema.getMateriales(); //metodo ya protege la lista con una copia
     }
 
     public Integer getIdTema() {
@@ -62,5 +74,21 @@ public class TemaDTO {
 
     public void setTemaPadre(TemaDTO temaPadre) {
         this.temaPadre = temaPadre;
+    }
+    
+    public ArrayList<MaterialDTO> getMateriales() {
+        return new ArrayList<>(materiales);
+    }
+    
+    public void setMateriales(List<MaterialDTO> materiales) {
+        this.materiales = new ArrayList<>(materiales);
+    }
+    
+    public void addMaterial(MaterialDTO material) {
+        this.materiales.add(material);
+    }
+
+    public void removeMaterial(MaterialDTO material) {
+        this.materiales.remove(material);
     }
 }

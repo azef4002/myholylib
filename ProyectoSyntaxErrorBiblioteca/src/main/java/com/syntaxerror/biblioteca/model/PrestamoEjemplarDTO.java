@@ -9,7 +9,7 @@ import java.util.Date;
  * @author MARLOW
  */
 public class PrestamoEjemplarDTO {
-        private Integer idPrestamo;
+    private Integer idPrestamo;
     private Integer idEjemplar;
     private EstadoPrestamoEjemplar estado; 
     private Date fechaRealDevolucion;

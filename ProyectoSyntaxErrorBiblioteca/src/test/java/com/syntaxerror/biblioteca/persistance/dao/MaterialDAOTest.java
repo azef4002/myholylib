@@ -1,227 +1,186 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
+ */
 package com.syntaxerror.biblioteca.persistance.dao;
 
-import com.syntaxerror.biblioteca.model.EditorialDTO;
-import com.syntaxerror.biblioteca.model.MaterialDTO;
-import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
-import com.syntaxerror.biblioteca.persistance.dao.impl.MaterialDAOImpl;
-import com.syntaxerror.biblioteca.persistance.dao.impl.EditorialDAOImpl;
 import java.util.ArrayList;
-import org.junit.jupiter.api.AfterEach;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
+
+import com.syntaxerror.biblioteca.model.CreadorDTO;
+import com.syntaxerror.biblioteca.model.EditorialDTO;
+import com.syntaxerror.biblioteca.model.MaterialDTO;
+import com.syntaxerror.biblioteca.model.TemaDTO;
+import com.syntaxerror.biblioteca.model.enums.Categoria;
+import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
+import com.syntaxerror.biblioteca.model.enums.TipoCreador;
+import com.syntaxerror.biblioteca.persistance.dao.impl.CreadorDAOImpl;
+import com.syntaxerror.biblioteca.persistance.dao.impl.EditorialDAOImpl;
+import com.syntaxerror.biblioteca.persistance.dao.impl.MaterialDAOImpl;
+import com.syntaxerror.biblioteca.persistance.dao.impl.TemaDAOImpl;
 
 /**
- * Test class for MaterialDAO implementation
- * Prueba todas las operaciones CRUD sobre la tabla BIB_MATERIAL
- * Los IDs son autoincrementales, manejados por la base de datos
+ *
+ * @author MARLOW
  */
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MaterialDAOTest {
-
-    private final MaterialDAO materialDAO;
-    private final EditorialDAO editorialDAO;
+    
+    private MaterialDAO materialDAO;
+    private EditorialDAO editorialDAO;
+    private CreadorDAO creadorDAO;
+    private TemaDAO temaDAO;
+    private MaterialDTO material;
+    private CreadorDTO creador;
+    private TemaDTO tema;
     private EditorialDTO editorial;
-
-    public MaterialDAOTest() {
-        this.materialDAO = new MaterialDAOImpl();
-        this.editorialDAO = new EditorialDAOImpl();
-    }
-
+    
     @BeforeEach
     public void setUp() {
-        limpiarBaseDeDatos();
-        // Create a test editorial for foreign key relationship
+        materialDAO = new MaterialDAOImpl();
+        editorialDAO = new EditorialDAOImpl();
+        creadorDAO = new CreadorDAOImpl();
+        temaDAO = new TemaDAOImpl();
+        
+        // Crear y guardar editorial de prueba
         editorial = new EditorialDTO();
         editorial.setNombre("Editorial Test");
-        editorial.setPais("País Test");
-        editorial.setSitioWeb("http://test.com");
         Integer idEditorial = editorialDAO.insertar(editorial);
+        assertNotNull(idEditorial, "La editorial debería insertarse correctamente");
         editorial.setIdEditorial(idEditorial);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        limpiarBaseDeDatos();
-    }
-
-    /**
-     * Método auxiliar para limpiar la base de datos
-     * Elimina todos los materiales y editoriales existentes
-     */
-    private void limpiarBaseDeDatos() {
-        // Clean up all materials first (due to foreign key constraints)
-        ArrayList<MaterialDTO> materiales = materialDAO.listarTodos();
-        for (MaterialDTO material : materiales) {
-            materialDAO.eliminar(material);
-        }
         
-        // Then clean up all editorials
-        ArrayList<EditorialDTO> editoriales = editorialDAO.listarTodos();
-        for (EditorialDTO editorial : editoriales) {
-            editorialDAO.eliminar(editorial);
-        }
-        
-        // Verify cleanup
-        assertTrue(materialDAO.listarTodos().isEmpty(), 
-                  "La base de datos de materiales debería estar vacía después de la limpieza");
-    }
-
-    private MaterialDTO crearMaterialPrueba(String titulo) {
-        MaterialDTO material = new MaterialDTO();
-        material.setTitulo(titulo);
-        material.setEdicion("Primera");
-        material.setNivel(NivelDeIngles.INTERMEDIO);
+        // Crear material de prueba
+        material = new MaterialDTO();
+        material.setTitulo("Material Test");
+        material.setEdicion("1ra Edición");
+        material.setNivel(NivelDeIngles.BASICO);
         material.setAnioPublicacion(2024);
         material.setEditorial(editorial);
-        return material;
+        
+        // Crear y guardar creador de prueba
+        creador = new CreadorDTO();
+        creador.setNombre("Autor");
+        creador.setPaterno("Test");
+        creador.setMaterno("Prueba");
+        creador.setTipo(TipoCreador.AUTOR);
+        creador.setNacionalidad("Peruana");
+        creador.setActivo(true);
+        Integer idCreador = creadorDAO.insertar(creador);
+        assertNotNull(idCreador, "El creador debería insertarse correctamente");
+        creador.setIdCreador(idCreador);
+        
+        // Crear y guardar tema de prueba
+        tema = new TemaDTO();
+        tema.setDescripcion("Tema Test");
+        tema.setCategoria(Categoria.GENERO);
+        Integer idTema = temaDAO.insertar(tema);
+        assertNotNull(idTema, "El tema debería insertarse correctamente");
+        tema.setIdTema(idTema);
     }
-
+    
     @Test
-    @Order(1)
-    public void testInsertar() {
-        System.out.println("insertar");
+    public void testAsociarCreador() {
+        // Primero insertamos el material
+        Integer idMaterial = materialDAO.insertar(material);
+        assertNotNull(idMaterial, "El material debería insertarse correctamente");
+        material.setIdMaterial(idMaterial);
         
-        MaterialDTO material1 = crearMaterialPrueba("Material Test 1");
-        MaterialDTO material2 = crearMaterialPrueba("Material Test 2");
+        // Luego asociamos el creador
+        Integer resultado = materialDAO.asociarCreador(creador);
+        assertTrue(resultado > 0, "La asociación debería ser exitosa");
         
-        // Test inserción del primer material
-        Integer id1 = materialDAO.insertar(material1);
-        assertNotNull(id1, "El ID generado no debería ser null");
-        assertTrue(id1 > 0, "El ID generado debería ser mayor que 0");
-        
-        // Test inserción del segundo material
-        Integer id2 = materialDAO.insertar(material2);
-        assertNotNull(id2, "El ID generado no debería ser null");
-        assertTrue(id2 > id1, "El segundo ID debería ser mayor que el primero (autoincremental)");
-        
-        // Verificar que se insertaron correctamente
-        ArrayList<MaterialDTO> materiales = materialDAO.listarTodos();
-        assertEquals(2, materiales.size(), "Deberían haber exactamente dos materiales en la base de datos");
-        
-        // Verificar que los materiales se pueden recuperar por sus IDs
-        MaterialDTO recuperado1 = materialDAO.obtenerPorId(id1);
-        MaterialDTO recuperado2 = materialDAO.obtenerPorId(id2);
-        assertNotNull(recuperado1, "El primer material debería existir");
-        assertNotNull(recuperado2, "El segundo material debería existir");
-        assertEquals("Material Test 1", recuperado1.getTitulo());
-        assertEquals("Material Test 2", recuperado2.getTitulo());
+        // Verificamos que existe la relación
+        boolean existe = materialDAO.existeRelacionConCreador(creador);
+        assertTrue(existe, "Debería existir la relación");
     }
-
+    
     @Test
-    @Order(2)
-    public void testObtenerPorId() {
-        System.out.println("obtenerPorId");
+    public void testAsociarTema() {
+        // Primero insertamos el material
+        Integer idMaterial = materialDAO.insertar(material);
+        assertNotNull(idMaterial, "El material debería insertarse correctamente");
+        material.setIdMaterial(idMaterial);
         
-        // Insertar material de prueba
-        MaterialDTO materialOriginal = crearMaterialPrueba("Material Test");
-        Integer id = materialDAO.insertar(materialOriginal);
-        assertNotNull(id, "El ID generado no debería ser null");
-        materialOriginal.setIdMaterial(id);
+        // Luego asociamos el tema
+        Integer resultado = materialDAO.asociarTema(tema);
+        assertTrue(resultado > 0, "La asociación debería ser exitosa");
         
-        // Obtener el material por ID
-        MaterialDTO materialObtenido = materialDAO.obtenerPorId(id);
-        
-        // Verificar que todos los campos coinciden
-        assertNotNull(materialObtenido, "El material obtenido no debería ser null");
-        assertEquals(materialOriginal.getIdMaterial(), materialObtenido.getIdMaterial(), "Los IDs deberían coincidir");
-        assertEquals(materialOriginal.getTitulo(), materialObtenido.getTitulo(), "Los títulos deberían coincidir");
-        assertEquals(materialOriginal.getEdicion(), materialObtenido.getEdicion(), "Las ediciones deberían coincidir");
-        assertEquals(materialOriginal.getNivel(), materialObtenido.getNivel(), "Los niveles deberían coincidir");
-        assertEquals(materialOriginal.getAnioPublicacion(), materialObtenido.getAnioPublicacion(), "Los años deberían coincidir");
-        assertEquals(materialOriginal.getEditorial().getIdEditorial(), 
-                   materialObtenido.getEditorial().getIdEditorial(), "Los IDs de editorial deberían coincidir");
-        
-        // Verificar que un ID inexistente retorna null
-        assertNull(materialDAO.obtenerPorId(99999), "Un ID inexistente debería retornar null");
+        // Verificamos que existe la relación
+        boolean existe = materialDAO.existeRelacionConTema(tema);
+        assertTrue(existe, "Debería existir la relación");
     }
-
+    
     @Test
-    @Order(3)
-    public void testListarTodos() {
-        System.out.println("listarTodos");
+    public void testListarPorCreador() {
+        // Primero insertamos el material
+        Integer idMaterial = materialDAO.insertar(material);
+        assertNotNull(idMaterial, "El material debería insertarse correctamente");
+        material.setIdMaterial(idMaterial);
         
-        // Verificar lista vacía inicial
-        assertTrue(materialDAO.listarTodos().isEmpty(), "La lista debería estar vacía inicialmente");
+        // Asociamos el creador
+        materialDAO.asociarCreador(creador);
         
-        // Insertar varios materiales
-        ArrayList<MaterialDTO> materialesOriginales = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            MaterialDTO material = crearMaterialPrueba("Material Test " + i);
-            Integer id = materialDAO.insertar(material);
-            assertNotNull(id, "El ID generado no debería ser null");
-            material.setIdMaterial(id);
-            materialesOriginales.add(material);
-        }
-        
-        // Obtener lista de materiales
-        ArrayList<MaterialDTO> materialesObtenidos = materialDAO.listarTodos();
-        
-        // Verificar cantidad
-        assertEquals(materialesOriginales.size(), materialesObtenidos.size(), 
-                    "El número de materiales obtenidos debería coincidir con los insertados");
-        
-        // Verificar que cada material existe en la lista y sus IDs son únicos
-        for (MaterialDTO materialOriginal : materialesOriginales) {
-            boolean encontrado = materialesObtenidos.stream()
-                .anyMatch(m -> m.getIdMaterial().equals(materialOriginal.getIdMaterial()));
-            assertTrue(encontrado, "No se encontró el material con ID: " + materialOriginal.getIdMaterial());
-        }
+        // Listamos los materiales por creador
+        ArrayList<MaterialDTO> materiales = materialDAO.listarPorCreador(creador);
+        assertNotNull(materiales, "La lista no debería ser null");
+        assertFalse(materiales.isEmpty(), "Debería haber al menos un material");
     }
-
+    
     @Test
-    @Order(4)
-    public void testModificar() {
-        System.out.println("modificar");
+    public void testListarPorTema() {
+        // Primero insertamos el material
+        Integer idMaterial = materialDAO.insertar(material);
+        assertNotNull(idMaterial, "El material debería insertarse correctamente");
+        material.setIdMaterial(idMaterial);
         
-        // Insertar material de prueba
-        MaterialDTO material = crearMaterialPrueba("Material Original");
-        Integer id = materialDAO.insertar(material);
-        assertNotNull(id, "El ID generado no debería ser null");
-        material.setIdMaterial(id);
+        // Asociamos el tema
+        materialDAO.asociarTema(tema);
         
-        // Modificar campos
-        material.setTitulo("Material Modificado");
-        material.setEdicion("Segunda");
-        material.setNivel(NivelDeIngles.AVANZADO);
-        material.setAnioPublicacion(2025);
-        
-        // Realizar modificación
-        Integer resultado = materialDAO.modificar(material);
-        assertNotEquals(0, resultado, "La modificación debería ser exitosa");
-        
-        // Verificar cambios
-        MaterialDTO materialModificado = materialDAO.obtenerPorId(id);
-        assertNotNull(materialModificado, "El material modificado debería existir");
-        assertEquals(material.getTitulo(), materialModificado.getTitulo(), "El título debería estar actualizado");
-        assertEquals(material.getEdicion(), materialModificado.getEdicion(), "La edición debería estar actualizada");
-        assertEquals(material.getNivel(), materialModificado.getNivel(), "El nivel debería estar actualizado");
-        assertEquals(material.getAnioPublicacion(), materialModificado.getAnioPublicacion(), "El año debería estar actualizado");
-        assertEquals(id, materialModificado.getIdMaterial(), "El ID no debería cambiar");
+        // Listamos los materiales por tema
+        ArrayList<MaterialDTO> materiales = materialDAO.listarPorTema(tema);
+        assertNotNull(materiales, "La lista no debería ser null");
+        assertFalse(materiales.isEmpty(), "Debería haber al menos un material");
     }
-
+    
     @Test
-    @Order(5)
-    public void testEliminar() {
-        System.out.println("eliminar");
+    public void testDesasociarCreador() {
+        // Primero insertamos el material
+        Integer idMaterial = materialDAO.insertar(material);
+        assertNotNull(idMaterial, "El material debería insertarse correctamente");
+        material.setIdMaterial(idMaterial);
         
-        // Insertar material de prueba
-        MaterialDTO material = crearMaterialPrueba("Material a Eliminar");
-        Integer id = materialDAO.insertar(material);
-        assertNotNull(id, "El ID generado no debería ser null");
-        material.setIdMaterial(id);
+        // Asociamos el creador
+        materialDAO.asociarCreador(creador);
         
-        // Verificar que existe
-        assertNotNull(materialDAO.obtenerPorId(id), "El material debería existir antes de eliminarlo");
+        // Desasociamos
+        Integer resultado = materialDAO.desasociarCreador(creador);
+        assertTrue(resultado > 0, "La desasociación debería ser exitosa");
         
-        // Eliminar
-        Integer resultado = materialDAO.eliminar(material);
-        assertNotEquals(0, resultado, "La eliminación debería ser exitosa");
-        
-        // Verificar que ya no existe
-        assertNull(materialDAO.obtenerPorId(id), "El material no debería existir después de eliminarlo");
+        // Verificamos que ya no existe la relación
+        boolean existe = materialDAO.existeRelacionConCreador(creador);
+        assertFalse(existe, "No debería existir la relación");
     }
-} 
+    
+    @Test
+    public void testDesasociarTema() {
+        // Primero insertamos el material
+        Integer idMaterial = materialDAO.insertar(material);
+        assertNotNull(idMaterial, "El material debería insertarse correctamente");
+        material.setIdMaterial(idMaterial);
+        
+        // Asociamos el tema
+        materialDAO.asociarTema(tema);
+        
+        // Desasociamos
+        Integer resultado = materialDAO.desasociarTema(tema);
+        assertTrue(resultado > 0, "La desasociación debería ser exitosa");
+        
+        // Verificamos que ya no existe la relación
+        boolean existe = materialDAO.existeRelacionConTema(tema);
+        assertFalse(existe, "No debería existir la relación");
+    }
+}

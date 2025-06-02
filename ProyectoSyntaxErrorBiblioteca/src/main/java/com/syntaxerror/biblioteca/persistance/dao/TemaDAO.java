@@ -1,8 +1,9 @@
-
 package com.syntaxerror.biblioteca.persistance.dao;
 
-import com.syntaxerror.biblioteca.model.TemaDTO;
 import java.util.ArrayList;
+
+import com.syntaxerror.biblioteca.model.MaterialDTO;
+import com.syntaxerror.biblioteca.model.TemaDTO;
 
 public interface TemaDAO {
     
@@ -15,4 +16,13 @@ public interface TemaDAO {
     public Integer modificar(TemaDTO tema);
 
     public Integer eliminar(TemaDTO tema);
+    
+    //CRUD de tabla intermedia con Material
+    public Integer asociarMaterial(MaterialDTO material);
+
+    public Integer desasociarMaterial(MaterialDTO material);
+
+    public boolean existeRelacionConMaterial(MaterialDTO material);
+
+    public ArrayList<TemaDTO> listarPorMaterial(MaterialDTO material);
 }
