@@ -13,20 +13,26 @@ namespace WA_Prueba
     {
         private MaterialWSClient materialwsClient;
 
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            materialwsClient = new MaterialWSClient();
-            LoadMateriales();
-        }
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        materialwsClient = new MaterialWSClient();
+    }
 
-        protected void LoadMateriales()
+    protected void LoadMateriales()
+    {
+        try
         {
-            List<materialDTO> materiales = new List<materialDTO>();
+            materialDTO[] materialesArray = materialwsClient.listarTodos();
+            List<materialDTO> materiales = materialesArray.ToList();
             dgvLibros.DataSource = materiales;
             dgvLibros.DataBind();
         }
-        protected void dgvLibros_RowCommand(object sender, GridViewCommandEventArgs e)
-{
+        catch (Exception ex)
+        {
+            Response.Write("<script>alert('Error al cargar los materiales: " + ex.Message + "');</script>");
+        }
+    }
+        protected void dgvLibros_RowCommand(object sender, GridViewCommandEventArgs e){
             if (e.CommandName == "VerDetalles")
             {
                 // Obtener el índice de la fila seleccionada
