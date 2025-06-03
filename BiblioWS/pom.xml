@@ -35,12 +35,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.metro</groupId>
-            <artifactId>webservices-rt</artifactId>
-            <version>2.3</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.guicedee.services</groupId>
             <artifactId>jakarta.jws-api</artifactId>
             <version>1.0.20.2-jre15</version>
@@ -51,7 +45,7 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>9.2.0</version>
          </dependency>
-         <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ProyectoSyntaxErrorBiblioteca</artifactId>
             <version>${project.version}</version>
