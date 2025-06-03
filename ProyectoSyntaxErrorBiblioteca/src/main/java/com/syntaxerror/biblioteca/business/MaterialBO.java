@@ -80,4 +80,21 @@ public class MaterialBO {
     public ArrayList<MaterialDTO> listarTodos() {
         return this.materialDAO.listarTodos();
     }
+
+    public ArrayList<MaterialDTO> listarPorCaracteres(String car) {
+        ArrayList<MaterialDTO> listaMateriales = new MaterialBO().listarTodos();
+        ArrayList<MaterialDTO> listaFiltrada = new ArrayList<>();
+        if (car == null || car.trim().isEmpty()) {
+            return listaFiltrada; 
+        }
+        String filtro = car.toLowerCase().trim();
+        for (MaterialDTO m : listaMateriales) {
+            String titulo = m.getTitulo();
+            if (titulo != null && titulo.toLowerCase().contains(filtro)) {
+                listaFiltrada.add(m);
+            }
+        }
+        return listaFiltrada;
+    }
+
 }

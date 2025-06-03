@@ -22,30 +22,34 @@ import java.util.ArrayList;
 public class MaterialWS {
 
     private final MaterialBO materialBO;
-    
-    public MaterialWS(){
-        materialBO=new MaterialBO();
+
+    public MaterialWS() {
+        materialBO = new MaterialBO();
     }
+
     /**
      * This is a sample web service operation
+     *
+     * @return
      */
     @WebMethod(operationName = "listarTodos")
     public ArrayList<MaterialDTO> listarTodos() {
-        try{
+        try {
             return materialBO.listarTodos();
-        } catch(Exception e){
-            throw new WebServiceException("Error al listar"+e.getMessage());
+        } catch (Exception e) {
+            throw new WebServiceException("Error al listar" + e.getMessage());
         }
     }
+
     @WebMethod(operationName = "modificarMaterial")
     public int modificarMaterial(
-        @WebParam(name = "idMaterial") Integer idMaterial,
-        @WebParam(name = "titulo") String titulo,
-        @WebParam(name = "edicion") String edicion,
-        @WebParam(name = "nivel") NivelDeIngles nivel,
-        @WebParam(name = "anioPublicacion") Integer anioPublicacion,
-        @WebParam(name = "portada") String portada,
-        @WebParam(name = "idEditorial") Integer idEditorial
+            @WebParam(name = "idMaterial") Integer idMaterial,
+            @WebParam(name = "titulo") String titulo,
+            @WebParam(name = "edicion") String edicion,
+            @WebParam(name = "nivel") NivelDeIngles nivel,
+            @WebParam(name = "anioPublicacion") Integer anioPublicacion,
+            @WebParam(name = "portada") String portada,
+            @WebParam(name = "idEditorial") Integer idEditorial
     ) {
         try {
             return materialBO.modificar(idMaterial, titulo, edicion, nivel, anioPublicacion, portada, idEditorial);
@@ -53,14 +57,17 @@ public class MaterialWS {
             throw new WebServiceException("Error al modificar material: " + e.getMessage());
         }
     }
+
     @WebMethod(operationName = "eliminarMaterial")
     public int eliminarMaterial(@WebParam(name = "idMaterial") Integer idMaterial) {
         try {
             return materialBO.eliminar(idMaterial);
-        } catch(Exception e){
-            throw new WebServiceException("Error al eliminar material: " + e.getMessage());}
+        } catch (Exception e) {
+            throw new WebServiceException("Error al eliminar material: " + e.getMessage());
+        }
     }
-    @WebMethod(operationName= "obtenerPorId")
+
+    @WebMethod(operationName = "obtenerPorId")
     public MaterialDTO obtenerPorId(@WebParam(name = "idMaterial") Integer idMaterial) {
         try {
             return materialBO.obtenerPorId(idMaterial); // Llamada al método en el MaterialBO
@@ -68,4 +75,14 @@ public class MaterialWS {
             throw new WebServiceException("Error al obtener el material: " + e.getMessage());
         }
     }
+
+    @WebMethod(operationName = "listarMaterialPorCaracteres")
+    public ArrayList<MaterialDTO> listarMaterialPorCaracteres(@WebParam(name = "palabra") String car) {
+        try {
+            return materialBO.listarPorCaracteres(car);
+        } catch (Exception e) {
+            throw new WebServiceException("Error al listar Material por caracteres" + e.getMessage());
+        }
+    }
+
 }
