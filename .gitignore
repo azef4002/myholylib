@@ -1,1 +1,46 @@
 /ProyectoSyntaxErrorBiblioteca/target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+
+target/
+**/target/
+
+build/
+**/build/
+
+.idea/
+*.iml
+
+.settings/
+.classpath
+.project
+bin/
+
+## Visual Studio y .NET ##
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+*.cache
+*.pdb
+*.vspscc
+*.vssscc
+
+# Dependencias (NuGet)
+packages/
+**/[Pp]ackages/*
+*.nupkg
+.nuget/
+
+# Archivos de configuración local (no compartir)
+appsettings.Development.json
+launchSettings.json
+
+# Rider/VS Code
+.idea/
+.vscode/
