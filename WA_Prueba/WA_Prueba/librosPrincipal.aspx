@@ -14,7 +14,7 @@
 
         .left-container {
             width: 60%; /* Ajustado para la tabla */
-            display: flex;
+            display: block;
             flex-direction: column;
             align-items: flex-start; /* Mantiene la tabla alineada a la izquierda */
             overflow-y: auto;
@@ -38,7 +38,7 @@
             border-radius: 8px;
             font-size: 18px;
             line-height: 1.8;
-            display: flex; /* Usamos flexbox para alinearlos */
+            display: none; /* Usamos flexbox para alinearlos */
             flex-direction: column; /* Alineamos los elementos en fila */
             justify-content: flex-start; /* Alinea el contenido en el inicio */
             align-items: flex-start; /* Alinea los items al inicio (parte superior) */
@@ -87,7 +87,7 @@
             border-radius: 8px;
             font-size: 22px;
             line-height: 1.8;
-            display: flex;
+            display: block;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -202,64 +202,62 @@
         }
     </style>
 
-            <div class="main-container">
-            <!-- Contenedor de la tabla -->
-            <div class="left-container">
-                <h2>Biblioteca digital</h2>
-                <div class="table-container">
-                    <asp:GridView ID="dgvLibros" runat="server" AllowPaging="false" AutoGenerateColumns="false" CssClass="table table-hover table-responsive table-striped" OnRowCommand="dgvLibros_RowCommand">
-                        <Columns>
-                            <asp:BoundField HeaderText="ID" DataField="idMaterial" />
-                            <asp:BoundField HeaderText="INVENTARIO" DataField="titulo" />
-                            <asp:TemplateField HeaderText="" ItemStyle-Width="50px">
-                                <ItemTemplate>
-                                    <asp:Button ID="btnVerDetalle" runat="server" Text="➡️" CommandName="VerDetalles" CommandArgument='<%# Eval("idMaterial") %>' OnClientClick="mostrarDetalles(); return false;" />
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
-                </div>
+<div class="main-container">
+        <!-- Contenedor de la tabla -->
+        <div class="left-container">
+            <h2>Biblioteca digital</h2>
+            <div class="table-container">
+                <asp:GridView ID="dgvLibros" runat="server" AllowPaging="false" AutoGenerateColumns="false" CssClass="table table-hover table-responsive table-striped" OnRowCommand="dgvLibros_RowCommand">
+                    <Columns>
+                        <asp:BoundField HeaderText="ID" DataField="idMaterial" />
+                        <asp:BoundField HeaderText="INVENTARIO" DataField="titulo" />
+                        <asp:TemplateField HeaderText="" ItemStyle-Width="50px">
+                            <ItemTemplate>
+                                <!-- Botón para ver detalles -->
+                                <asp:Button ID="btnVerDetalle" runat="server" Text="➡️" CommandName="VerDetalles" CommandArgument='<%# Eval("idMaterial") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+
+        <!-- Sección de detalles del libro -->
+        <div id="detallesContainer" class="detallesContainer" runat="server" style="display: none;">
+            <div class="detalle-texto">
+                <h3>Detalles del Libro</h3>
+                <p><strong>Título:</strong> <span id="detalleTitulo" runat="server"></span></p>
+                <p><strong>Año de publicación:</strong> <span id="detalleAnio" runat="server"></span></p>
+                <p><strong>Categorías:</strong> <span id="detalleCategorias" runat="server"></span></p>
+                <p><strong>Autor:</strong> <span id="detalleAutor" runat="server"></span></p>
+                <p><strong>Editorial:</strong> <span id="detalleEditorial" runat="server"></span></p>
+                <p><strong>Descripción:</strong> <span id="detalleDescripcion" runat="server"></span></p>
+                <asp:HiddenField ID="hfMaterialId" runat="server" />
+                <button runat="server" id="btnVolver" class="action-button" OnClick="VolverALaLista_Click">Volver a la lista</button>
             </div>
 
-            <!-- Sección de detalles del libro -->
-            <div id="detallesContainer" class="detallesContainer" style="display: none;">
-                <div class="detalle-texto">
-                    <h3>Detalles del Libro</h3>
-                    <p><strong>Título:</strong> <span id="detalleTitulo"></span></p>
-                    <p><strong>Año de publicación:</strong> <span id="detalleAnio"></span></p>
-                    <p><strong>Categorías:</strong> <span id="detalleCategorias"></span></p>
-                    <p><strong>Autor:</strong> <span id="detalleAutor"></span></p>
-                    <p><strong>Editorial:</strong> <span id="detalleEditorial"></span></p>
-                    <p><strong>Descripción:</strong> <span id="detalleDescripcion"></span></p>
-                    <button onclick="volverDetalles();">Volver a la lista</button>
-                </div>
-        
-                <div class="button-container">
-                    <asp:Button ID="btnEditar" runat="server" Text="Editar Material" CssClass="action-button" CommandArgument='<%# Eval("idMaterial") %>' OnClientClick="editarMaterial(this); return false;" />
-                    <asp:Button ID="btnEliminar" runat="server" Text="Eliminar Material" CssClass="action-button" OnClientClick="mostrarModal(); return false;" />
-                    <button class="action-button">Ver Ejemplares</button>
-                </div>
+            <div class="button-container">
+                <asp:Button ID="btnEditar" runat="server" Text="Editar Material" CssClass="action-button" CommandArgument='<%# Eval("idMaterial") %>' OnClientClick="editarMaterial(this); return false;" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="action-button" OnClick="EliminarMaterial_Click" />
+                <button class="action-button">Ver Ejemplares</button>
+            </div>
 
-                <div class="filas-desplegables">
+            <div class="filas-desplegables">
                 <div class="fila no-clickable">
                     <span>Stock total de sede:</span> <span id="stockTotalSede">10</span>
                 </div>
-
                 <div class="fila clickable" onclick="toggleInfo('info2')">
                     <span>Lista de Ejemplares</span>
                     <div id="info2" class="info" style="display: none;">
                         <p>Detalles de los ejemplares disponibles.</p>
                     </div>
                 </div>
-
                 <div class="fila no-clickable">
                     <span>Ejemplares libres:</span> <span id="ejemplaresLibres">3</span>
                 </div>
-
                 <div class="fila no-clickable">
                     <span>Ejemplares en préstamo:</span> <span id="ejemplaresPrestamo">7</span>
                 </div>
-
                 <div class="fila clickable" onclick="toggleInfo('info5')">
                     <span>Lista de solicitudes de préstamo:</span>
                     <div id="info5" class="info" style="display: none;">
@@ -267,30 +265,28 @@
                     </div>
                 </div>
             </div>
-            </div>
-
-            <!-- Sección de estadísticas (visible inicialmente) -->
-            <div id="statsContainer" class="stats-container">
-                <p><strong>CANTIDAD TOTAL DE OBRAS PRESENTES</strong></p>
-                <p>003</p>
-
-                <p><strong>CANTIDAD TOTAL DE EJEMPLARES</strong></p>
-                <p>003</p>
-
-                <p><strong>USUARIOS EN LÍNEA</strong></p>
-                <p>123</p>
-            </div>
-        </div>
-        <div id="modalConfirmacion" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModal()">&times;</span>
-                <h3>¿Estás seguro de que deseas eliminar este material?</h3>
-                <button onclick="eliminarMaterial()">Sí, eliminar</button>
-                <button onclick="cerrarModal()">Cancelar</button>
-            </div>
         </div>
 
-    <!-- Script de JavaScript para manejar la visibilidad y mostrar los detalles -->
+        <!-- Sección de estadísticas -->
+        <div id="statsContainer" class="stats-container" runat="server" style="display: block;">
+            <p><strong>CANTIDAD TOTAL DE OBRAS PRESENTES</strong></p>
+            <p>003</p>
+            <p><strong>CANTIDAD TOTAL DE EJEMPLARES</strong></p>
+            <p>003</p>
+            <p><strong>USUARIOS EN LÍNEA</strong></p>
+            <p>123</p>
+        </div>
+    </div>
+
+    <div id="modalConfirmacion" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h3>¿Estás seguro de que deseas eliminar este material?</h3>
+            <button onclick="eliminarMaterial()">Sí, eliminar</button>
+            <button onclick="cerrarModal()">Cancelar</button>
+        </div>
+    </div>
+
     <script>
         function toggleInfo(id) {
             var info = document.getElementById(id);
@@ -300,46 +296,18 @@
                 info.style.display = "none";
             }
         }
+
         function mostrarModal() {
             document.getElementById('modalConfirmacion').style.display = 'flex';
         }
 
-        // Cerrar el modal
         function cerrarModal() {
             document.getElementById('modalConfirmacion').style.display = 'none';
         }
 
-        // Función para eliminar el material
         function eliminarMaterial() {
-            // Aquí puedes agregar la lógica para eliminar el material
             alert("Material eliminado.");
-            cerrarModal();  // Cerrar el modal después de eliminar
-        }
-        function editarMaterial(btn) {
-            var idMaterial = btn.commandArgument; // Obtiene el CommandArgument
-            window.location.href = 'libroDetalle.aspx?id=' + idMaterial; // Redirige a la página de detalles
-        }
-        function mostrarDetalles() {
-            // Ocultar la sección de estadísticas
-            document.getElementById("statsContainer").style.display = "none";
-
-            // Mostrar la sección de detalles
-            document.getElementById("detallesContainer").style.display = "block";
-
-            // Mostrar los detalles en la nueva sección
-            document.getElementById("detalleTitulo").innerText = "Libro Ejemplo"; // Cambiar dinámicamente
-            document.getElementById("detalleAnio").innerText = "2025"; // Cambiar dinámicamente
-            document.getElementById("detalleCategorias").innerText = "Categoría Ejemplo"; // Cambiar dinámicamente
-            document.getElementById("detalleAutor").innerText = "Autor Ejemplo"; // Cambiar dinámicamente
-            document.getElementById("detalleEditorial").innerText = "Editorial Ejemplo"; // Cambiar dinámicamente
-            document.getElementById("detalleDescripcion").innerText = "Descripción Ejemplo"; // Cambiar dinámicamente
-        }
-        function volverDetalles() {
-            // Mostrar la sección de estadísticas
-            document.getElementById("statsContainer").style.display = "block";
-
-            // Ocultar la sección de detalles
-            document.getElementById("detallesContainer").style.display = "none";
+            cerrarModal();
         }
     </script>
 </asp:Content>
