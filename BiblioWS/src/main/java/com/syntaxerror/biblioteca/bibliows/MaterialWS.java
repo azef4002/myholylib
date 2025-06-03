@@ -84,5 +84,7 @@ public class MaterialWS {
             throw new WebServiceException("Error al listar Material por caracteres" + e.getMessage());
         }
     }
+    
+    
 
 }
