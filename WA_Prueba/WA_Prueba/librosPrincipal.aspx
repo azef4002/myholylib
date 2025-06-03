@@ -163,6 +163,43 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .filas-desplegables .fila {
+            background-color: #f2f2f2; /* Fondo gris */
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: default;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; /* Mantiene la fila en una posición fija mientras se despliega la información */
+        }
+
+        .filas-desplegables .fila.clickable {
+            cursor: pointer; /* Cambia el cursor solo en filas clickeables */
+        }
+
+        .filas-desplegables .fila:hover {
+            background-color: #ddd; /* Fondo más oscuro cuando se pasa el ratón */
+        }
+
+        .filas-desplegables .fila.no-clickable {
+            cursor: not-allowed; /* No permite hacer clic en estas filas */
+            background-color: #d4edda;
+        }
+
+        .info {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e0e0e0; /* Fondo más claro para el contenido desplegable */
+            border-radius: 5px;
+        }
+
+        .filas-desplegables .fila span {
+            display: inline-block;
+            max-width: 200px; /* Limita el ancho del texto */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
             <div class="main-container">
@@ -198,10 +235,38 @@
                 </div>
         
                 <div class="button-container">
-                    <button class="action-button">Editar Material</button>
+                    <asp:Button ID="btnEditar" runat="server" Text="Editar Material" CssClass="action-button" CommandArgument='<%# Eval("idMaterial") %>' OnClientClick="editarMaterial(this); return false;" />
                     <asp:Button ID="btnEliminar" runat="server" Text="Eliminar Material" CssClass="action-button" OnClientClick="mostrarModal(); return false;" />
                     <button class="action-button">Ver Ejemplares</button>
                 </div>
+
+                <div class="filas-desplegables">
+                <div class="fila no-clickable">
+                    <span>Stock total de sede:</span> <span id="stockTotalSede">10</span>
+                </div>
+
+                <div class="fila clickable" onclick="toggleInfo('info2')">
+                    <span>Lista de Ejemplares</span>
+                    <div id="info2" class="info" style="display: none;">
+                        <p>Detalles de los ejemplares disponibles.</p>
+                    </div>
+                </div>
+
+                <div class="fila no-clickable">
+                    <span>Ejemplares libres:</span> <span id="ejemplaresLibres">3</span>
+                </div>
+
+                <div class="fila no-clickable">
+                    <span>Ejemplares en préstamo:</span> <span id="ejemplaresPrestamo">7</span>
+                </div>
+
+                <div class="fila clickable" onclick="toggleInfo('info5')">
+                    <span>Lista de solicitudes de préstamo:</span>
+                    <div id="info5" class="info" style="display: none;">
+                        <p>No se encontraron solicitudes pendientes por el momento.</p>
+                    </div>
+                </div>
+            </div>
             </div>
 
             <!-- Sección de estadísticas (visible inicialmente) -->
@@ -227,6 +292,14 @@
 
     <!-- Script de JavaScript para manejar la visibilidad y mostrar los detalles -->
     <script>
+        function toggleInfo(id) {
+            var info = document.getElementById(id);
+            if (info.style.display === "none") {
+                info.style.display = "block";
+            } else {
+                info.style.display = "none";
+            }
+        }
         function mostrarModal() {
             document.getElementById('modalConfirmacion').style.display = 'flex';
         }
@@ -241,6 +314,10 @@
             // Aquí puedes agregar la lógica para eliminar el material
             alert("Material eliminado.");
             cerrarModal();  // Cerrar el modal después de eliminar
+        }
+        function editarMaterial(btn) {
+            var idMaterial = btn.commandArgument; // Obtiene el CommandArgument
+            window.location.href = 'libroDetalle.aspx?id=' + idMaterial; // Redirige a la página de detalles
         }
         function mostrarDetalles() {
             // Ocultar la sección de estadísticas
