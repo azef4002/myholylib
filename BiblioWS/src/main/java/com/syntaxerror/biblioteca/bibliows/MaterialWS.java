@@ -5,6 +5,9 @@
 package com.syntaxerror.biblioteca.bibliows;
 
 import com.syntaxerror.biblioteca.business.MaterialBO;
+import com.syntaxerror.biblioteca.business.MaterialCreadorBO;
+import com.syntaxerror.biblioteca.business.util.BusinessException;
+import com.syntaxerror.biblioteca.model.CreadorDTO;
 import com.syntaxerror.biblioteca.model.MaterialDTO;
 import com.syntaxerror.biblioteca.model.enums.NivelDeIngles;
 import jakarta.xml.ws.WebServiceException;
@@ -22,9 +25,11 @@ import java.util.ArrayList;
 public class MaterialWS {
 
     private final MaterialBO materialBO;
+    private final MaterialCreadorBO materialCreadorBO;
     
     public MaterialWS(){
         materialBO=new MaterialBO();
+        materialCreadorBO=new MaterialCreadorBO();
     }
     /**
      * This is a sample web service operation
@@ -35,6 +40,16 @@ public class MaterialWS {
             return materialBO.listarTodos();
         } catch(Exception e){
             throw new WebServiceException("Error al listar"+e.getMessage());
+        }
+    }
+    @WebMethod(operationName = "listarCreadoresPorMaterial")
+    public ArrayList<CreadorDTO> listarCreadoresPorMaterial(
+        @WebParam(name = "idMaterial") Integer idMaterial
+    ) {
+        try {
+            return materialCreadorBO.listarCreadoresPorMaterial(idMaterial);
+        } catch (BusinessException e) {
+            throw new WebServiceException("Error al listar creadores por material: " + e.getMessage());
         }
     }
     @WebMethod(operationName = "modificarMaterial")

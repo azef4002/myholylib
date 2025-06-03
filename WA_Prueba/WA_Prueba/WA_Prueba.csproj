@@ -69,9 +69,185 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\CreadorMaterialWS\CreadorMaterialWS.wsdl" />
+    <None Include="Connected Services\CreadorMaterialWS\CreadorMaterialWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.asociarMaterialCreadorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.creadorDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.desasociarMaterialCreadorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.existeRelacionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.listarCreadoresPorMaterialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.listarMaterialesPorCreadorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorMaterialWS\WA_Prueba.CreadorMaterialWS.materialDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\CreadorWS\CreadorWS.wsdl" />
+    <None Include="Connected Services\CreadorWS\CreadorWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\CreadorWS\WA_Prueba.CreadorWS.creadorDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorWS\WA_Prueba.CreadorWS.eliminarCreadorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorWS\WA_Prueba.CreadorWS.insertarCreadorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorWS\WA_Prueba.CreadorWS.listarCreadoresResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorWS\WA_Prueba.CreadorWS.modificarCreadorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\CreadorWS\WA_Prueba.CreadorWS.obtenerCreadorPorIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\EditorialWS\EditorialWS.wsdl" />
+    <None Include="Connected Services\EditorialWS\EditorialWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CreadorWS\configuration91.svcinfo" />
+    <None Include="Connected Services\CreadorWS\configuration.svcinfo" />
+    <None Include="Connected Services\CreadorWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Connected Services\EditorialWS\WA_Prueba.EditorialWS.editorialDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EditorialWS\WA_Prueba.EditorialWS.eliminarEditorialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EditorialWS\WA_Prueba.EditorialWS.insertarEditorialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EditorialWS\WA_Prueba.EditorialWS.listarEditorialesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EditorialWS\WA_Prueba.EditorialWS.modificarEditorialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EditorialWS\WA_Prueba.EditorialWS.obtenerEditorialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\EjemplarWS\EjemplarWS.wsdl" />
+    <None Include="Connected Services\EjemplarWS\EjemplarWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.contarDisponiblesPorMaterialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.contarDisponiblesPorSedeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.contarTotalPorMaterialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.contarTotalPorSedeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.ejemplarDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.eliminarEjemplarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.insertarEjemplarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.listarEjemplaresResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.modificarEjemplarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\EjemplarWS\WA_Prueba.EjemplarWS.obtenerEjemplarResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Connected Services\MaterialWS\configuration91.svcinfo" />
     <None Include="Connected Services\MaterialWS\configuration.svcinfo" />
     <None Include="Connected Services\MaterialWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\PersonaWS\configuration91.svcinfo" />
+    <None Include="Connected Services\PersonaWS\configuration.svcinfo" />
+    <None Include="Connected Services\PersonaWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\CreadorMaterialWS\configuration91.svcinfo" />
+    <None Include="Connected Services\CreadorMaterialWS\configuration.svcinfo" />
+    <None Include="Connected Services\CreadorMaterialWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\EditorialWS\configuration91.svcinfo" />
+    <None Include="Connected Services\EditorialWS\configuration.svcinfo" />
+    <None Include="Connected Services\EditorialWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\EjemplarWS\configuration91.svcinfo" />
+    <None Include="Connected Services\EjemplarWS\configuration.svcinfo" />
+    <None Include="Connected Services\EjemplarWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\PrestamoWS\PrestamoWS.wsdl" />
+    <None Include="Connected Services\PrestamoWS\PrestamoWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.contarPrestamosActivosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.contarPrestamosAtrasadosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.contarPrestamosPorMaterialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.eliminarPrestamoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.insertarPrestamoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.listarPrestamosResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.modificarPrestamoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.obtenerPrestamoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PrestamoWS\WA_Prueba.PrestamoWS.prestamoDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\SedeWS\configuration91.svcinfo" />
+    <None Include="Connected Services\SedeWS\configuration.svcinfo" />
+    <None Include="Connected Services\SedeWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\PrestamoWS\configuration91.svcinfo" />
+    <None Include="Connected Services\PrestamoWS\configuration.svcinfo" />
+    <None Include="Connected Services\PrestamoWS\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -105,13 +281,63 @@
     <None Include="Connected Services\MaterialWS\MaterialWS.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Connected Services\MaterialWS\WA_Prueba.MaterialWS.eliminarMaterialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Connected Services\MaterialWS\WA_Prueba.MaterialWS.listarTodosResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Connected Services\MaterialWS\WA_Prueba.MaterialWS.materialDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\MaterialWS\WA_Prueba.MaterialWS.helloResponse.datasource">
+    <Content Include="Connected Services\MaterialWS\WA_Prueba.MaterialWS.modificarMaterialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\MaterialWS\WA_Prueba.MaterialWS.obtenerPorIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\PersonaWS\PersonaWS.wsdl" />
+    <None Include="Connected Services\PersonaWS\PersonaWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\PersonaWS\WA_Prueba.PersonaWS.eliminarPersonaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PersonaWS\WA_Prueba.PersonaWS.insertarPersonaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PersonaWS\WA_Prueba.PersonaWS.listarPersonasResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PersonaWS\WA_Prueba.PersonaWS.modificarPersonaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PersonaWS\WA_Prueba.PersonaWS.obtenerPersonaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\PersonaWS\WA_Prueba.PersonaWS.personaDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\SedeWS\SedeWS.wsdl" />
+    <None Include="Connected Services\SedeWS\SedeWS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\SedeWS\WA_Prueba.SedeWS.eliminarSedeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\SedeWS\WA_Prueba.SedeWS.insertarSedeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\SedeWS\WA_Prueba.SedeWS.listarSedesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\SedeWS\WA_Prueba.SedeWS.modificarSedeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\SedeWS\WA_Prueba.SedeWS.obtenerSedeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\SedeWS\WA_Prueba.SedeWS.sedeDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
@@ -129,7 +355,42 @@
     <Compile Include="BiblioMaster.Master.designer.cs">
       <DependentUpon>BiblioMaster.Master</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\CreadorMaterialWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\CreadorWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\EditorialWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\EjemplarWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\MaterialWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\PersonaWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\PrestamoWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\SedeWS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -190,7 +451,14 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\CreadorMaterialWS\" />
+    <WCFMetadataStorage Include="Connected Services\CreadorWS\" />
+    <WCFMetadataStorage Include="Connected Services\EditorialWS\" />
+    <WCFMetadataStorage Include="Connected Services\EjemplarWS\" />
     <WCFMetadataStorage Include="Connected Services\MaterialWS\" />
+    <WCFMetadataStorage Include="Connected Services\PersonaWS\" />
+    <WCFMetadataStorage Include="Connected Services\PrestamoWS\" />
+    <WCFMetadataStorage Include="Connected Services\SedeWS\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
