@@ -25,6 +25,23 @@ namespace WA_Prueba
             dgvLibros.DataSource = materiales;
             dgvLibros.DataBind();
         }
+        protected void dgvLibros_RowCommand(object sender, GridViewCommandEventArgs e)
+{
+            if (e.CommandName == "VerDetalles")
+            {
+                // Obtener el índice de la fila seleccionada
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = dgvLibros.Rows[rowIndex];
+
+                // Obtener los datos del libro (Ejemplo: ID y título)
+                string idMaterial = (row.Cells[0].Text);
+                string titulo = (row.Cells[1].Text);
+
+                // Aquí puedes pasar estos valores al JavaScript para que los muestre
+                string script = $"mostrarDetalles('{idMaterial}', '{titulo}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "mostrarDetalles", script, true);
+            }
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
