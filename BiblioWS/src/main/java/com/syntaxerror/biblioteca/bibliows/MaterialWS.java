@@ -37,5 +37,27 @@ public class MaterialWS {
             throw new WebServiceException("Error al listar"+e.getMessage());
         }
     }
-    
+    @WebMethod(operationName = "modificarMaterial")
+    public int modificarMaterial(
+        @WebParam(name = "idMaterial") Integer idMaterial,
+        @WebParam(name = "titulo") String titulo,
+        @WebParam(name = "edicion") String edicion,
+        @WebParam(name = "nivel") NivelDeIngles nivel,
+        @WebParam(name = "anioPublicacion") Integer anioPublicacion,
+        @WebParam(name = "portada") String portada,
+        @WebParam(name = "idEditorial") Integer idEditorial
+    ) {
+        try {
+            return materialBO.modificar(idMaterial, titulo, edicion, nivel, anioPublicacion, portada, idEditorial);
+        } catch (Exception e) {
+            throw new WebServiceException("Error al modificar material: " + e.getMessage());
+        }
+    }
+    @WebMethod(operationName = "eliminarMaterial")
+    public int eliminarMaterial(@WebParam(name = "idMaterial") Integer idMaterial) {
+        try {
+            return materialBO.eliminar(idMaterial);
+        } catch(Exception e){
+            throw new WebServiceException("Error al eliminar material: " + e.getMessage());}
+    }
 }
