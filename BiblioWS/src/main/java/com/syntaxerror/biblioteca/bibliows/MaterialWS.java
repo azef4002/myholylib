@@ -60,4 +60,12 @@ public class MaterialWS {
         } catch(Exception e){
             throw new WebServiceException("Error al eliminar material: " + e.getMessage());}
     }
+    @WebMethod(operationName= "obtenerPorId")
+    public MaterialDTO obtenerPorId(@WebParam(name = "idMaterial") Integer idMaterial) {
+        try {
+            return materialBO.obtenerPorId(idMaterial); // Llamada al método en el MaterialBO
+        } catch (Exception e) {
+            throw new WebServiceException("Error al obtener el material: " + e.getMessage());
+        }
+    }
 }
